@@ -21,11 +21,11 @@ The lifecycle below is the current implementation map across candidate, consulta
 | MatchMaker transfer | Consultant | [Transfer](/docs/api/consultant/post-candidates-id-match-maker), [application pack](/docs/api/consultant/post-candidates-id-application-pack) | candidates, candidate_jobs, files, answers, match_maker_candidates | MatchMaker/Epsilon, contact logs, pack/PDF |
 | Worker welfare | Consultant/queue worker | [Welfare check](/docs/api/consultant/post-candidates-id-worker-welfare-check), [history](/docs/api/consultant/get-candidates-id-worker-welfare-checks) | candidate_welfare_checks, files, candidates | GBG Face Match, PDF, MatchMaker contact log, compliance email |
 
-## Evidence-backed stage notes
+## Stage notes
 
 ### Invitation and signup
 
-The invitation flow writes invitation data before sending the invitation email. During signup, tracking cookie data supplies branch/job/referrer context and CandidateService resolves branch, job and MatchMaker context before creating or updating candidate state. A late email or provider failure is not evidence that all prior writes rolled back. See SPEC-002 and SPEC-032.
+The invitation flow writes invitation data before sending the invitation email. During signup, tracking cookie data supplies branch/job/referrer context before candidate state is created or updated. A late email or provider failure does not prove that earlier writes rolled back.
 
 ### Profile, identity and questions
 
@@ -50,13 +50,3 @@ Contract release requires personal, RTW and interview aggregate progress to be c
 - match_maker_candidates maps logically by email, peo_no and db_source; it does not have a candidate_id foreign key in the current migration.
 - candidate_timings is the existing candidate/job timing row and stores contract timing plus Permanent Agreement first-click time/IP.
 - Production schema and data cleanliness remain UNVERIFIED.
-
-## Primary sources
-
-- .business-spec/backend-business-flow-spec.md: SPEC-002, SPEC-004 through SPEC-020, SPEC-032 through SPEC-034 and SPEC-039
-- app/Services/CandidateService.php
-- app/Services/RegistrationProgressService.php
-- app/Utilities/RegistrationProgressUtility.php
-- app/Services/MatchMakerService.php
-- app/Models/Candidate.php
-- .business-spec/backend-database-relationship.md

@@ -47,5 +47,3 @@ The spelling of severError is retained because it is the configured error name.
 Do not retry from HTTP status alone. First classify the failure as rejected before mutation, committed local mutation, failed external/notification side effect, or a state requiring reconciliation.
 
 Permanent intake is the clearest example: local candidate/address/answer writes commit before the synchronous MatchMaker listener; a later provider failure returns 502 while is_permanent remains false. MatchMaker transfer, welfare certificate generation, mail, SMS and scheduler flows have their own partial-state notes on the [operations pages](/docs/operations/external-integrations).
-
-Source: config/api.php:6-106, app/Exceptions/Api/APIErrorException.php:23-43, app/Http/Middleware/ErrorHandling.php:12-20, app/Http/Resources/Api/Candidate/Status.php, app/Http/Resources/Api/User/Status.php.

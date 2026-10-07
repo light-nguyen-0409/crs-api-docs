@@ -9,14 +9,14 @@ This page describes the shared request boundary for the 245 runtime API entries.
 
 ## Runtime boundary
 
-| Boundary | Observed behavior | Evidence |
-|---|---|---|
-| Prefix and middleware | User, candidate, consultant, compliance, admin, and general route groups are registered under /api with the api middleware group. | app/Providers/RouteServiceProvider.php:31-68 |
-| Rate limiting | The api limiter allows 60 requests per minute, keyed by authenticated user ID or client IP. | app/Providers/RouteServiceProvider.php:79-83 |
-| Route inventory | The canonical route collection contains 245 runtime entries; GET / HEAD is Laravel's display for a GET route that also accepts HEAD. | .business-spec/backend-api-route-inventory.md |
-| Request chain | Route → controller → request/validator → service → repository/model → response; external calls, events, queues, mail and logs may branch from the service layer. | .business-spec/backend-business-flow-spec.md §2 and SPEC-001 |
+| Boundary | Observed behavior |
+| --- | --- |
+| Prefix and middleware | User, candidate, consultant, compliance, admin, and general route groups are registered under /api with the api middleware group. |
+| Rate limiting | The api limiter allows 60 requests per minute, keyed by authenticated user ID or client IP. |
+| Route inventory | The canonical route collection contains 245 runtime entries; GET / HEAD is Laravel's display for a GET route that also accepts HEAD. |
+| Request chain | Route → controller → request/validator → service → repository/model → response; external calls, events, queues, mail and logs may branch from the service layer. |
 
-## Evidence-first reading order
+## How to use this documentation
 
 1. Start from the [runtime API reference](/docs/api).
 2. Check the endpoint middleware and controller listed on the endpoint page.
@@ -29,10 +29,10 @@ This page describes the shared request boundary for the 245 runtime API entries.
 
 | Caller context | Success/error resource | Observed shape |
 |---|---|---|
-| Candidate/general flows | Candidate Status resource | success, message, detail, optional errors; each error item contains code and message. Evidence: app/Http/Resources/Api/Candidate/Status.php:10-21, 34-61 |
-| User flows | User Status resource | success, optional type/title/status, errorCode, detail and invalidParams. Evidence: app/Http/Resources/Api/User/Status.php:10-29, 31-65 |
+| Candidate/general flows | Candidate Status resource | success, message, detail, optional errors; each error item contains code and message. |
+| User flows | User Status resource | success, optional type/title/status, errorCode, detail and invalidParams. |
 | Resource/DTO responses | Endpoint-specific Resource or DTO | Shape is endpoint-specific and must be read from the linked controller/resource; OpenAPI alone is not runtime proof. |
-| API exceptions | Configured API error response | APIErrorException resolves config/api.php by error name and maps configured code/status; ErrorHandling renders the custom response. Evidence: app/Exceptions/Api/APIErrorException.php:23-43, app/Http/Middleware/ErrorHandling.php:12-20 |
+| API exceptions | Configured API error response | Configured error names map to stable error codes/statuses and the standard API response. |
 
 ## Global failure boundary
 

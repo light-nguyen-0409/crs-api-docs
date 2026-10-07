@@ -11,7 +11,6 @@ The current webhook-like routes have different behavior. Neither route should be
 
 Endpoint: [POST /api/candidate/gbg/webhook](/docs/api/candidate/post-gbg-webhook)
 
-Source: app/Http/Controllers/Api/Candidate/GBGIdspCertifiedPassportCheckController.php:118-126.
 
 Observed behavior:
 
@@ -26,7 +25,6 @@ Idempotent processing is EXPECTED_NOT_ENFORCED in the business spec. A successfu
 
 Endpoint: [POST /api/consultant/sms/observe](/docs/api/consultant/post-sms-observe)
 
-Source: app/Http/Controllers/Api/Consultant/SmsController.php:153-169.
 
 Observed behavior:
 

@@ -67,10 +67,6 @@ List the actual FormRequest/controller/service validation rules.
 | HTTP status | Error name/code | Trigger | Retry guidance |
 |---|---|---|---|
 
-## Business flow and side effects
+## Flow
 
 Link the relevant flow spec and document DB reads/writes, external calls, events, queues, mail, files, or audit logs.
-
-## Source and verification notes
-
-Record CODE, DATA, CONFIG, EXTERNAL, or INFRASTRUCTURE evidence and any deviation from OpenAPI.

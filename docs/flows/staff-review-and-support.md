@@ -9,11 +9,11 @@ Consultant, compliance and admin endpoints share user authentication but have di
 
 ## Actor matrix
 
-| Actor | Main scope | Representative operations | Evidence |
-|---|---|---|---|
-| Consultant | Selected branch through Gap-Branch-ID and role mapping | Candidate search/detail, appointments, files, issues, progress, MatchMaker, SMS | routes/consultant.php; DetectBranchForConsultant; SPEC-014 through SPEC-016 and SPEC-038 |
-| Compliance | Branch IDs supplied by DetectBranchForCompliance | Candidate review, RTW/file approval, issue management, templates | routes/compliance.php; DetectBranchForCompliance; SPEC-017 and SPEC-028 |
-| Admin | Global admin role | Candidate reset/delete/unblock, users, branches, tags, agencies | routes/admin.php; DetectAdmin; SPEC-027 and SPEC-037 |
+| Actor | Main scope | Representative operations |
+| --- | --- | --- |
+| Consultant | Selected branch through Gap-Branch-ID and role mapping | Candidate search/detail, appointments, files, issues, progress, MatchMaker, SMS |
+| Compliance | Branch IDs supplied by DetectBranchForCompliance | Candidate review, RTW/file approval, issue management, templates |
+| Admin | Global admin role | Candidate reset/delete/unblock, users, branches, tags, agencies |
 
 ## Consultant candidate search sources
 
@@ -24,7 +24,7 @@ The consultant list is not a single candidates query:
 3. Other filters use local candidate data and related job/address/note/interview/issue/file records.
 4. Detail access then checks branch ownership separately.
 
-Use the identifier type from the UI tab when debugging: invitation ID, MatchMaker peo_no or local candidate ID are not interchangeable. Evidence: SPEC-038 and CandidateService::getUnregisteredInviteesByBranch/getCandidatesByBranch/candidateBelongsToTheBranch.
+Use the identifier type from the UI tab when debugging: invitation ID, MatchMaker peo_no or local candidate ID are not interchangeable.
 
 ## Appointment, issue and progress coordination
 
@@ -46,7 +46,7 @@ Candidate approval and RTW approval are separate code paths:
 | Update candidate with RTW APPROVED | Runs RTW evidence gate, sets RTW timing/progress and dispatches OverallApproveEvent. | It does not mean candidate status APPROVED or that OnePay accepted the request. |
 | Approve RTW file | File status/expiry operation is separate from candidate approval. | A single approved file is not the entire RTW gate. |
 
-This is a documented CODE deviation from older descriptions; see SPEC-017 and the [error/status guide](/docs/errors).
+This differs from older descriptions; see the [error/status guide](/docs/errors).
 
 ## Reset, switching and destructive support actions
 
@@ -60,17 +60,8 @@ Representative pages: [admin reset](/docs/api/admin/put-candidates-reset-id), [s
 
 ## Email template and cache behavior
 
-When rich-text mode is enabled, custom template resolution is branch → legal entity → global custom → master. SaveCustom sanitizes content and increments the type version used by the resolved-custom cache. Direct DB/config edits do not automatically invalidate that version. Evidence: SPEC-028 and app/Services/EmailTemplateService.php.
+When rich-text mode is enabled, custom template resolution is branch → legal entity → global custom → master. SaveCustom sanitizes content and increments the type version used by the resolved-custom cache. Direct DB/config edits do not automatically invalidate that version.
 
 ## Support checklist
 
 Before changing or retrying a staff workflow, capture actor/guard, branch IDs, candidate/job scope, issue status/category, exact endpoint, request ID or time window, and api_result_logs. Do not treat a successful HTTP response as proof that downstream mail, external API or queue work completed.
-
-## Sources
-
-- .business-spec/backend-business-flow-spec.md: SPEC-014 through SPEC-018 and SPEC-027 through SPEC-038
-- app/Http/Middleware/DetectBranchForConsultant.php
-- app/Http/Middleware/DetectBranchForCompliance.php
-- app/Services/CandidateService.php
-- app/Services/EmailTemplateService.php
-- app/Events/EventRegister.php

@@ -15,7 +15,7 @@ Permanent intake is a post-signup candidate flow. It reuses the existing candida
 - [Submit intake](/docs/api/candidate/post-me-permanent-intake)
 - CV and agreement files use the existing [candidate file upload](/docs/api/candidate/post-me-files-type) flow.
 
-The config controller requires job_id >= 1 and verifies candidate ownership through the service. Evidence: app/Http/Controllers/Api/Candidate/PermanentCandidateIntakeController.php:34-43.
+The config controller requires job_id >= 1 and verifies candidate ownership through the service.
 
 ## Request contract
 
@@ -30,9 +30,9 @@ The FormRequest requires:
 | Agreement | work_finder_agreement_accepted must be accepted |
 | Files | exactly two files entries; each file_id is integer/distinct and type is CV or work_finder_agreement, with distinct types |
 
-Source: app/Http/Requests/Api/Candidate/PermanentCandidateIntakeRequest.php:19-50. The exact error serialization for framework validation remains UNVERIFIED.
+The exact error serialization for framework validation remains UNVERIFIED.
 
-## Source-verified sequence
+## Submission sequence
 
 1. Service resolves the candidate_job for the signed-in candidate and rejects an already permanent candidate with permanentIntakeConflict.
 2. It batch-loads submitted files by ID, checks candidate ownership and declared type, requires a CV and a Work Finder Agreement tied to the submitted job and existing storage.
@@ -42,7 +42,6 @@ Source: app/Http/Requests/Api/Candidate/PermanentCandidateIntakeRequest.php:19-5
 6. After the transaction, it dispatches PermanentCandidateSubmittedEvent with candidate/job/CV/agreement IDs. The registered listener calls MatchMaker synchronization.
 7. Only after the event returns successfully does the service set is_permanent=true and return candidate_id, job_id, candidate_job_id and submission_status=submitted.
 
-Evidence: app/Services/PermanentCandidateIntakeService.php:201-330; app/Events/EventRegister.php:17-22; app/Events/Listeners/SyncPermanentCandidateToMatchMakerListener.php:13-27.
 
 ## Data and side effects
 
@@ -66,13 +65,3 @@ Evidence: app/Services/PermanentCandidateIntakeService.php:201-330; app/Events/E
 | Duplicate submit after successful sync | permanentIntakeConflict prevents a second submit once is_permanent is true. |
 
 No idempotency key or exactly-once MatchMaker guarantee is implemented in the current flow. That is an implementation limitation, not a client promise.
-
-## Related source
-
-- app/Http/Controllers/Api/Candidate/PermanentCandidateIntakeController.php
-- app/Http/Requests/Api/Candidate/PermanentCandidateIntakeRequest.php
-- app/Services/PermanentCandidateIntakeService.php
-- app/Events/Definitions/PermanentCandidateSubmittedEvent.php
-- app/Events/Listeners/SyncPermanentCandidateToMatchMakerListener.php
-- config/api.php:82-105
-- .business-spec/backend-business-flow-spec.md: SPEC-039

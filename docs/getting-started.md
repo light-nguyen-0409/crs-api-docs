@@ -22,18 +22,13 @@ Each endpoint page follows the same order:
 4. Request body and validation.
 5. Success response.
 6. Error responses.
-7. Business flow and side effects.
-8. Source and verification notes.
+7. Flow link when the endpoint has business side effects.
 
 A page marked PARTIAL or UNVERIFIED is a work item, not a guarantee of runtime behavior.
 
-## Source priority
+## Status labels
 
-For route identity and middleware, use the runtime route inventory and routes/*.php.
-
-For validation and response shape, trace FormRequest, Controller, Service, Resource/Response, Exception, and config source.
-
-For business flow and database context, use the linked business-spec files and verify the source call chain.
+`VERIFIED` and `PARTIAL` describe how much of the runtime contract is documented. `UNVERIFIED` means that a field or behavior still needs confirmation before it is used as a client assumption.
 
 ## Current status
 

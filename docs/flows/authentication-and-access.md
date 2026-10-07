@@ -11,8 +11,8 @@ CRS has separate candidate and staff authentication guards. Authorization is the
 
 | Context | Entry points | Guard/middleware evidence | Observed token behavior |
 |---|---|---|---|
-| Candidate | /api/candidate/auth/signup, login, logout, refresh, password reset | Public auth routes; protected routes use auth:candidateApi. | Candidate login checks the candidate lock, signs in, obtains a JWT, signs out other devices and returns access_token, token_type=bearer and expires_in. Evidence: app/Http/Controllers/Api/Candidate/AuthController.php:115-168 |
-| Staff user | /api/user/auth/login, logout, refresh, password reset | User AuthController applies auth:userApi to every action except login. | User login checks lock state, logs authentication metadata and returns the same token field names with the userApi TTL. Evidence: app/Http/Controllers/Api/User/AuthController.php:21-26, 33-105 |
+| Candidate | /api/candidate/auth/signup, login, logout, refresh, password reset | Public auth routes; protected routes use auth:candidateApi. | Candidate login checks the candidate lock, signs in, obtains a JWT, signs out other devices and returns access_token, token_type=bearer and expires_in. |
+| Staff user | /api/user/auth/login, logout, refresh, password reset | User AuthController applies auth:userApi to every action except login. | User login checks lock state, logs authentication metadata and returns the same token field names with the userApi TTL. |
 | Consultant | /api/consultant/* | auth:userApi plus detectBranchForConsultant and usually autoLogout. | Global consultant role or a user_branch role can grant branch access; the request must carry Gap-Branch-ID for routes using branch middleware. |
 | Compliance | /api/compliance/* | auth:userApi plus detectBranchForCompliance. | Admin branch context is all branches in the middleware; compliance context is built from user branch mappings. The consumer semantics of an empty branch collection remain UNVERIFIED. |
 | Admin | /api/admin/* | auth:userApi plus detectAdmin. | detectAdmin checks the global admin role. A userApi token alone does not prove admin access. |
@@ -20,21 +20,21 @@ CRS has separate candidate and staff authentication guards. Authorization is the
 
 ## Staff login lock
 
-User::LOCKED_ATTEMPT_COUNT is 5. UserService::signIn resets attempt_count after a successful sign-in; a failed sign-in increments attempt_count and last_attempt and notifies when the count reaches the configured constant. Evidence: app/Models/User.php:46, 122; app/Services/UserService.php:108-127.
+User::LOCKED_ATTEMPT_COUNT is 5. UserService::signIn resets attempt_count after a successful sign-in; a failed sign-in increments attempt_count and last_attempt and notifies when the count reaches the configured constant.
 
-Admin user unlock resets attempt_count and sends a password-reset email. It does not unlock a candidate profile or change candidate MatchMaker state. Evidence: app/Services/UserService.php:249-255.
+Admin user unlock resets attempt_count and sends a password-reset email. It does not unlock a candidate profile or change candidate MatchMaker state.
 
-Candidate lock behavior is separate: Candidate::isLocked uses the candidate attempt count and a five-minute period; CheckCandidateLockEdit bypasses GET but blocks non-GET when profile_locked or the highest job is MATCHMAKER. Evidence: app/Models/Candidate.php:311-312; app/Http/Middleware/CheckCandidateLockEdit.php:11-18.
+Candidate lock behavior is separate: Candidate::isLocked uses the candidate attempt count and a five-minute period; CheckCandidateLockEdit bypasses GET but blocks non-GET when profile_locked or the highest job is MATCHMAKER.
 
 ## Branch, job and inactivity scope
 
-| Scope | Runtime rule | Failure code/source |
+| Scope | Runtime rule | Failure |
 |---|---|---|
-| Consultant branch | Gap-Branch-ID is required; UserService::allowToAccessTheBranch checks global role or user_branch role before adding branch_id to request attributes. | wrongParameter or branchAccessNotAllowed; app/Http/Middleware/DetectBranchForConsultant.php:27-40 |
-| Compliance branches | Admin gets all branch IDs; a compliance user gets branch IDs from role mappings. | roleAccessNotAllowed; app/Http/Middleware/DetectBranchForCompliance.php:30-57 |
-| Candidate job | Candidate must have an application. If multiple jobs exist, Gap-Job-ID is required and must belong to the candidate. | wrongParameter; app/Http/Middleware/DetectJobForCandidate.php:26-51 |
+| Consultant branch | Gap-Branch-ID is required and must be allowed for the user. | wrongParameter or branchAccessNotAllowed |
+| Compliance branches | Admin gets all branch IDs; a compliance user gets branch IDs from role mappings. | roleAccessNotAllowed |
+| Candidate job | Candidate must have an application. If multiple jobs exist, Gap-Job-ID is required and must belong to the candidate. | wrongParameter |
 | Candidate edit lock | GET is bypassed; non-GET is blocked by profile_locked or MATCHMAKER highest job. | Status error from CheckCandidateLockEdit |
-| Staff inactivity | AutoLogout reads auth.inactive_timeout and authentication log activity. When inactive it signs out and still calls the next handler; exact client-visible behavior is therefore not the same as an immediate middleware 401. | app/Http/Middleware/AutoLogout.php:18-42 |
+| Staff inactivity | Inactivity is checked against the configured timeout and authentication activity. The exact client-visible response depends on the middleware chain. | Authentication failure/timeout |
 
 ## Client guidance
 

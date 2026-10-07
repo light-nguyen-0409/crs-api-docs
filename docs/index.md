@@ -27,12 +27,3 @@ Phase 3 documentation is now present:
 Phase 4 is still required for repository publication, GitHub Pages configuration, and any remote synchronization.
 
 See the [getting started guide](/docs/getting-started), [authentication guide](/docs/authentication), [business flows](/docs/flows/api-request-lifecycle), [operations](/docs/operations/scheduled-processes), and [API reference](/docs/api).
-
-## Evidence labels
-
-- CODE: verified from route, controller, request, resource, exception, or configuration source.
-- DATA: verified from model, migration, or database relationship evidence.
-- EXTERNAL: behavior involving MatchMaker, GBG, OnePay, SMS, SharePoint, or an address provider.
-- CONFIG: behavior controlled by application configuration.
-- INFRASTRUCTURE: deployment or runtime behavior not proven by local source.
-- UNVERIFIED: evidence is incomplete and must not be treated as a live contract.
