@@ -38,6 +38,23 @@ Candidate lock behavior is separate: Candidate::isLocked uses the candidate atte
 
 ## Client guidance
 
+### Authorization header
+
+After login, pass the returned token on protected requests using the HTTP Authorization header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+Use the token from the matching guard:
+
+| Request family | Login source | Header | Additional scope |
+|---|---|---|---|
+| Candidate | `/api/candidate/auth/login` | `Authorization: Bearer <candidate access token>` | `Gap-Job-ID` when candidate job selection is required |
+| Consultant/compliance/admin | `/api/user/auth/login` | `Authorization: Bearer <user access token>` | `Gap-Branch-ID` for consultant branch middleware; role/branch rules still apply |
+
+The token header is separate from `Gap-Branch-ID` and `Gap-Job-ID`. A valid JWT does not bypass role, branch, job ownership or candidate lock checks.
+
 - Use the guard-specific login route; do not send a candidate token to userApi routes or vice versa.
 - Preserve access_token and token_type from the response; the configured TTL value is not documented here because deployment config is UNVERIFIED.
 - Send Gap-Branch-ID only where the route middleware requires it.

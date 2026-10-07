@@ -35,7 +35,7 @@ Your GET email templates endpoint
 | `auth:userApi` | Runtime route inventory |
 | `detectBranchForCompliance` | Runtime route inventory |
 
-Authentication and authorization outcomes are UNVERIFIED beyond the middleware names recorded above.
+For protected routes, send `Authorization: Bearer <access_token>` from the matching candidateApi or userApi login flow. See the [Authentication guide](/docs/authentication) for token handling and scope headers.
 
 ## Request
 
@@ -55,7 +55,7 @@ No path parameters are identified in the runtime route template.
 
 ### Headers
 
-UNVERIFIED — header requirements are not represented in the runtime route inventory.
+For protected routes, send `Authorization: Bearer <access_token>`; add `Gap-Branch-ID` or `Gap-Job-ID` only when the route middleware requires it.
 
 ### Body
 

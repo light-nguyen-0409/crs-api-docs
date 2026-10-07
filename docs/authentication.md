@@ -10,6 +10,55 @@ CRS has separate authentication contexts for candidates and internal users. Some
 
 The source-backed guard, token and access-control map is maintained in [Authentication and access](/docs/flows/authentication-and-access).
 
+## How to send the token
+
+1. Call the login endpoint for the actor type.
+2. Copy the `access_token` from the successful response.
+3. Add the token to every endpoint request whose middleware includes `auth:candidateApi` or `auth:userApi`:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+Do not send the raw token without the `Bearer` scheme. Do not send a candidate token to staff routes or a staff token to candidate routes.
+
+### Login response
+
+Both login controllers return this token contract:
+
+```json
+{
+  "access_token": "<issued-jwt>",
+  "token_type": "bearer",
+  "expires_in": 3600
+}
+```
+
+`expires_in` is returned in seconds. The effective JWT TTL is configuration-driven and must not be hardcoded by a client.
+
+### Request examples
+
+Candidate request:
+
+```bash
+curl "$BASE_URL/api/candidate/me" \
+  -H "Authorization: Bearer $CANDIDATE_ACCESS_TOKEN" \
+  -H "Accept: application/json"
+```
+
+Consultant request with branch scope:
+
+```bash
+curl "$BASE_URL/api/consultant/candidates" \
+  -H "Authorization: Bearer $USER_ACCESS_TOKEN" \
+  -H "Gap-Branch-ID: <branch_id>" \
+  -H "Accept: application/json"
+```
+
+`Gap-Branch-ID` and `Gap-Job-ID` are authorization/scope headers, not replacements for `Authorization`. Send them only when the endpoint middleware requires them.
+
+Evidence: candidate/user auth controllers return `access_token` and `token_type=bearer`; `candidateApi` and `userApi` are JWT guards in `config/auth.php`; the route inventory identifies the protected middleware.
+
 ## Guard and token summary
 
 | Context | Runtime evidence | Observed behavior |

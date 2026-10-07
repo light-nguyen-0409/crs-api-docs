@@ -24,6 +24,8 @@ Describe the actor and use case from source evidence.
 
 List route middleware and authorization/ownership rules. Use UNVERIFIED when the call chain has not been traced.
 
+For a protected route, send the token returned by the matching login endpoint as `Authorization: Bearer <access_token>`. Document any additional `Gap-Branch-ID` or `Gap-Job-ID` scope header separately.
+
 ## Request
 
 ### Path parameters
@@ -40,6 +42,7 @@ List route middleware and authorization/ownership rules. Use UNVERIFIED when the
 
 | Name | Required | Description |
 |---|---|---|
+| Authorization | When auth middleware is present | Bearer JWT returned by the matching login endpoint |
 
 ### Body
 
