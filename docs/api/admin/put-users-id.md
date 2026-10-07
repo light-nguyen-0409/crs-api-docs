@@ -1,0 +1,88 @@
+---
+title: "PUT /api/admin/users/{id}"
+sidebar_label: "PUT /api/admin/users/{id}"
+method: "PUT"
+runtime_method_declaration: "PUT"
+path: "/api/admin/users/{id}"
+domain: "admin"
+controller: "App\\Http\\Controllers\\Api\\Admin\\UserController@update"
+middleware: "api, auth:userApi, detectAdmin"
+flow_spec: "SPEC-037 / SPEC-035 — Staff/master data/catalogs / Authentication/access/lock"
+contract_status: "PARTIAL"
+openapi_source: "documents/Gap-API-Admin.yaml"
+openapi_path: "/api/admin/users/{id}"
+openapi_match: "EXACT_PATH"
+last_verified: "2026-10-07"
+---
+
+# `PUT /api/admin/users/{id}`
+
+## Contract status
+
+`PARTIAL` — a matching OpenAPI operation exists with the same method and path template. Request, response, and error behavior still require source tracing.
+
+## Authentication and middleware
+
+| Middleware | Evidence |
+|---|---|
+| `api` | Runtime route inventory |
+| `auth:userApi` | Runtime route inventory |
+| `detectAdmin` | Runtime route inventory |
+
+Authentication and authorization outcomes are UNVERIFIED beyond the middleware names recorded above.
+
+## Request
+
+### Path parameters
+
+| Runtime parameter | Required | OpenAPI name | Notes |
+|---|---|---|---|
+| `id` | UNVERIFIED | UNVERIFIED | OpenAPI declaration is UNVERIFIED. |
+
+### Query parameters
+
+The matched OpenAPI operation does not declare query parameters. Runtime query behavior remains UNVERIFIED.
+
+### Headers
+
+UNVERIFIED — header requirements are not represented in the runtime route inventory.
+
+### Body
+
+The matched OpenAPI operation does not declare a request body. Runtime body behavior remains UNVERIFIED.
+
+## Response
+
+### Success and declared responses
+
+| Status | Description | Content types | Evidence |
+|---|---|---|---|
+| `200` | OK | application/json | OpenAPI declaration |
+| `requestBody` | UNVERIFIED | application/json | OpenAPI declaration |
+
+Runtime Resource/DTO mapping is UNVERIFIED.
+
+## Errors
+
+| Status | Description | Content types | Evidence |
+|---|---|---|---|
+| `requestBody` | UNVERIFIED | application/json | OpenAPI declaration; runtime mapping UNVERIFIED |
+
+## Business flow and side effects
+
+Flow baseline: [SPEC-037](/docs/flows/staff-review-and-support) / [SPEC-035](/docs/flows/authentication-and-access) — Staff/master data/catalogs / Authentication/access/lock.
+
+Detailed transitions, mutations, external calls, and side effects are UNVERIFIED at endpoint-page granularity. Trace the controller/service call chain against the canonical business-flow and database-relationship specifications before relying on this page as a behavior contract.
+
+## Source and verification notes
+
+| Source | Value |
+|---|---|
+| Runtime route | `routes/admin.php` |
+| Controller action | `App\Http\Controllers\Api\Admin\UserController@update` |
+| OpenAPI reference | `documents/Gap-API-Admin.yaml` operation `PUT /users/{id}` |
+| Business-flow baseline | `.business-spec/backend-business-flow-spec.md` |
+| Database baseline | `.business-spec/backend-database-relationship.md` |
+| Last verified | `2026-10-07` |
+
+This page is generated from the runtime route inventory and available OpenAPI reference. It intentionally does not infer undocumented request or response fields.

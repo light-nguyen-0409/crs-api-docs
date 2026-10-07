@@ -1,0 +1,91 @@
+---
+title: "PUT /api/admin/candidates/mm_status/{id}"
+sidebar_label: "PUT /api/admin/candidates/mm_status/{id}"
+method: "PUT"
+runtime_method_declaration: "PUT"
+path: "/api/admin/candidates/mm_status/{id}"
+domain: "admin"
+controller: "App\\Http\\Controllers\\Api\\Admin\\CandidateController@updateMatchMakerStatus"
+middleware: "api, auth:userApi, detectAdmin"
+flow_spec: "SPEC-027 — Admin operation"
+contract_status: "PARTIAL"
+openapi_source: "documents/Gap-API-Admin.yaml"
+openapi_path: "/api/admin/candidates/mm_status/{id}"
+openapi_match: "EXACT_PATH"
+last_verified: "2026-10-07"
+---
+
+# `PUT /api/admin/candidates/mm_status/{id}`
+
+## Contract status
+
+`PARTIAL` — a matching OpenAPI operation exists with the same method and path template. Request, response, and error behavior still require source tracing.
+
+### OpenAPI summary
+
+Update machmaker status
+
+## Authentication and middleware
+
+| Middleware | Evidence |
+|---|---|
+| `api` | Runtime route inventory |
+| `auth:userApi` | Runtime route inventory |
+| `detectAdmin` | Runtime route inventory |
+
+Authentication and authorization outcomes are UNVERIFIED beyond the middleware names recorded above.
+
+## Request
+
+### Path parameters
+
+| Runtime parameter | Required | OpenAPI name | Notes |
+|---|---|---|---|
+| `id` | Yes | `id` | OpenAPI name matches. |
+
+### Query parameters
+
+The matched OpenAPI operation does not declare query parameters. Runtime query behavior remains UNVERIFIED.
+
+### Headers
+
+UNVERIFIED — header requirements are not represented in the runtime route inventory.
+
+### Body
+
+| Required | Content types | Description |
+|---|---|---|
+| No | application/json | OpenAPI requestBody |
+
+## Response
+
+### Success and declared responses
+
+| Status | Description | Content types | Evidence |
+|---|---|---|---|
+| `200` | OK | application/json | OpenAPI declaration |
+
+Runtime Resource/DTO mapping is UNVERIFIED.
+
+## Errors
+
+UNVERIFIED — controller, validation, authentication, and exception mappings require source tracing.
+
+## Business flow and side effects
+
+Flow baseline: [SPEC-027](/docs/flows/staff-review-and-support) — Admin operation.
+
+Detailed transitions, mutations, external calls, and side effects are UNVERIFIED at endpoint-page granularity. Trace the controller/service call chain against the canonical business-flow and database-relationship specifications before relying on this page as a behavior contract.
+
+## Source and verification notes
+
+| Source | Value |
+|---|---|
+| Runtime route | `routes/admin.php` |
+| Controller action | `App\Http\Controllers\Api\Admin\CandidateController@updateMatchMakerStatus` |
+| OpenAPI reference | `documents/Gap-API-Admin.yaml` operation `PUT /candidates/mm_status/{id}` |
+| Business-flow baseline | `.business-spec/backend-business-flow-spec.md` |
+| Database baseline | `.business-spec/backend-database-relationship.md` |
+| Last verified | `2026-10-07` |
+
+This page is generated from the runtime route inventory and available OpenAPI reference. It intentionally does not infer undocumented request or response fields.
