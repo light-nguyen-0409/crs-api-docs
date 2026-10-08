@@ -64,9 +64,9 @@ UNVERIFIED — controller, validation, authentication, and exception mappings re
 
 Flow baseline: [SPEC-032](/docs/flows/staff-review-and-support) — Invitation.
 
-## GAP-734 — Planned contract (not implemented or deployed)
+## GAP-734 — Local implementation (deployment unverified)
 
-This section documents GAP-734 Phase 1. Optional job selection will be implemented in Phase 2; it is not yet available on STG or production. Current source sends the branch registration link without resolving a selected job. Existing contract-status metadata above describes the current inventory.
+GAP-734 Phase 2 implements optional job selection in the backend workspace. Deployment to STG/production has not been verified. Existing contract-status metadata above describes the historical inventory. The contract below supersedes the earlier unverified request/response placeholders for GAP-734.
 
 ### Request schema
 
@@ -152,7 +152,7 @@ HTTP `200`; the existing schema is unchanged:
 
 The timestamp above is illustrative; GAP-734 does not change serialization or return the resolved URL/job selection.
 
-### Planned error contract
+### Error contract
 
 | HTTP | Error | Condition |
 |---|---|---|
@@ -164,7 +164,7 @@ The timestamp above is illustrative; GAP-734 does not change serialization or re
 | `403` | `branchAccessNotAllowed`, code `1007` | Branch access denied. |
 | `500` | `serverSideError`, code `1010` | Branch/link configuration error, existing candidate gate failure, or email failure. |
 
-Selected-job failures use the planned custom `InvalidInvitationJobException`, caught before the controller's existing generic exception handler. They occur before invitation writes and mail. Legacy error behavior remains unchanged. Mail failure can still occur after an invitation has been saved.
+Selected-job failures use the custom `InvalidInvitationJobException`, caught before the controller's existing generic exception handler. They occur before invitation writes and mail. Legacy error behavior remains unchanged. Mail failure can still occur after an invitation has been saved.
 
 Selection error example (detail text is illustrative):
 

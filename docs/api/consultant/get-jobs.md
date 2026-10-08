@@ -69,9 +69,9 @@ UNVERIFIED — controller, validation, authentication, and exception mappings re
 
 Flow baseline: [SPEC-007](/docs/flows/candidate-lifecycle) — Candidate/job application.
 
-## GAP-734 — Planned contract (not implemented or deployed)
+## GAP-734 — Local implementation (deployment unverified)
 
-This section documents the approved direction for GAP-734 Phase 1. Backend implementation belongs to Phase 2; these additions must not be assumed available on STG or production yet. Existing contract-status metadata above describes the current inventory, not deployment of this change.
+GAP-734 Phase 2 implements this contract in the backend workspace. Deployment to STG/production has not been verified; do not assume the deployed API already includes these fields. Existing contract-status metadata above describes the historical inventory. The contract below supersedes the earlier unverified request/response placeholders for GAP-734.
 
 ### Request headers and pagination
 
@@ -95,7 +95,7 @@ Authorization: Bearer <token>
 Gap-Branch-ID: 7
 ```
 
-### Planned response schema
+### Response schema
 
 | Field | Type | Meaning |
 |---|---|---|
@@ -110,7 +110,7 @@ Gap-Branch-ID: 7
 | `invitation_default_job.job_reference` | string | Value of registration-link parameter `job_ref`. |
 | `invitation_default_job.title` | string | Value of registration-link parameter `job_title`. |
 
-The default object contains only these three fields. It does not require a matching job record; the raw registration link is not returned. Response/database field `job_reference` and URL key `job_ref` represent the same reference using different key names.
+The default object requires all three URL parameters to be scalar and nonblank, an HTTP(S) URL with a host, and an unambiguous query/fragment context; otherwise it is null. The default object contains only these three fields. It does not require a matching job record; the raw registration link is not returned. Response/database field `job_reference` and URL key `job_ref` represent the same reference using different key names.
 
 ```json
 {
@@ -141,7 +141,7 @@ Example without a configured default link:
 }
 ```
 
-Select the default option by omitting `job_id` or submitting null to [the invite endpoint](/docs/api/consultant/post-candidates-invite). Select a listed job by submitting its internal `id`. Reload options and reset the selection when the branch changes. Jobs with missing references cannot be used for custom invitation selection under the planned validation rules.
+Select the default option by omitting `job_id` or submitting null to [the invite endpoint](/docs/api/consultant/post-candidates-invite). Select a listed job by submitting its internal `id`. Reload options and reset the selection when the branch changes. Jobs with missing references cannot be used for custom invitation selection under the selected-job validation rules.
 
 ### Errors and scope
 
