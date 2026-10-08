@@ -76,3 +76,61 @@ If protected, use the Authorization header from the [authentication guide](/docs
 ## Flow
 
 Flow baseline: [SPEC-009](/docs/flows/candidate-lifecycle) — Files.
+
+
+## GAP-691 CV image upload contract
+
+Approved contract, pending backend verification (2026-10-08). Deployment to STG/production has not been verified. This section supersedes the generic request placeholders above only for `type=cv`.
+
+Send a required multipart field `file` with a Candidate Bearer token. CV files are candidate-scoped and do not require `Gap-Job-ID`. Candidate edit locks and upload blocking still apply, and every upload must pass ClamAV scanning.
+
+| Accepted extensions | Accepted MIME types |
+|---|---|
+| pdf | application/pdf |
+| doc | application/msword |
+| docx | application/vnd.openxmlformats-officedocument.wordprocessingml.document |
+| png | image/png |
+| jpg, jpeg | image/jpeg |
+
+The maximum file size is 10 MiB (10,240 KiB). Laravel validates the detected file type and MIME; changing the filename or multipart Content-Type alone does not bypass validation. PNG/JPEG support expands the previous PDF/Word-only CV contract. Other file types retain their existing rules; the Permanent Candidate Form still requires PDF.
+
+```bash
+curl --location 'http://localhost:8081/api/candidate/me/files/cv' \
+  --header 'Authorization: Bearer <candidate-token>' \
+  --form 'file=@"/path/to/cv.png"'
+```
+
+Success returns HTTP `201` with a top-level File object (no `data` wrapper):
+
+```json
+{
+  "id": 123,
+  "type": "cv",
+  "url": "https://files.example.test/cv.png?signature=example",
+  "converted_file_url": "",
+  "status": "uploaded",
+  "original_file_name": "cv.png",
+  "uploaded_at": 1791417600,
+  "toe_signed_ip": ""
+}
+```
+
+URLs are temporary. The converted-file value follows existing storage configuration; clients should use the returned value rather than assume conversion of image CVs. Use the returned `id` and `type` when referencing this CV in Permanent intake.
+
+Invalid MIME/extension or a file exceeding the size limit returns HTTP `400`, `wrongParameter` (code `1006`), before file storage or metadata creation. For example, an oversized file returns:
+
+```json
+{
+  "success": false,
+  "message": "",
+  "detail": "Wrong Parameters",
+  "errors": [
+    {
+      "code": 1006,
+      "message": ["The file must not be greater than 10240 kilobytes."]
+    }
+  ]
+}
+```
+
+An unsupported MIME returns the same envelope with a file-type validation message instead. Missing/invalid Candidate authentication remains HTTP `401`. ClamAV rejection and upload blocking retain the existing error handling and candidate-blocking behavior.

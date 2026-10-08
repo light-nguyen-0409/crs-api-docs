@@ -65,3 +65,8 @@ The exact error serialization for framework validation remains UNVERIFIED.
 | Duplicate submit after successful sync | permanentIntakeConflict prevents a second submit once is_permanent is true. |
 
 No idempotency key or exactly-once MatchMaker guarantee is implemented in the current flow. That is an implementation limitation, not a client promise.
+
+
+## GAP-691 CV upload formats
+
+Approved contract, pending backend verification (2026-10-08); STG/production deployment remains unverified. Upload the CV through `POST /api/candidate/me/files/cv` before submitting its returned file ID. Accepted CV formats are PDF, DOC, DOCX, PNG, JPG and JPEG, with detected MIME validation, ClamAV scanning and a maximum size of 10 MiB. See the [CV upload contract](/docs/api/candidate/post-me-files-type#gap-691-cv-image-upload-contract) for request, response and validation examples. This change only expands CV upload formats; it does not change the Permanent intake submission shape or MatchMaker workflow.
