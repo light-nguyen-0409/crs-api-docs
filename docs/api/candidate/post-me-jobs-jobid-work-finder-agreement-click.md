@@ -80,7 +80,7 @@ Flow baseline: [SPEC-039](/docs/flows/permanent-intake) — Permanent candidate 
 
 ## GAP-691 first-click metadata contract
 
-Approved planned contract (2026-10-08), not yet deployed. This section supersedes the generic response placeholders above. Backend and STG/production verification are pending.
+Implemented and verified in the backend workspace (2026-10-08); STG/production deployment has not been verified. This section supersedes the generic response placeholders above. Affected tests passed (142 tests, 7,100 assertions); full default PHPUnit passed (612 tests, 9,114 assertions). Frontend PDF implementation/QA remains a separate handoff.
 
 Use a Candidate Bearer token and the owned job ID in the path. No request body or `Gap-Job-ID` header is required. Candidate/job ownership and edit-lock middleware still apply. Body fields such as `ip`, `clicked_at`, `candidate_id` or `job_id` do not supply the metadata.
 
