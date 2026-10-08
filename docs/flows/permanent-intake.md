@@ -82,6 +82,14 @@ The job snapshot includes persisted Candidate/job first-click timestamp and IP. 
 
 PDF header/footer reuse `pdf.layouts.certificate`, including logos, with Permanent Candidate Form / Permanent Candidate Registration header text. Main title and sections follow English GetStartedPerm: Get started; Personal information; Address; When can we contact you?; Transportation; Right to work status; CV; Work Finder Agreement. Welfare/GBG certification claims are not carried into this registration PDF. Payload changes after enqueue do not alter the queued PDF content.
 
+## Question option labels from the database
+
+**GAP-691 approved amendment — NOT YET DEPLOYED (2026-10-08).** Submitted dropdown values are raw keys. Transport, travel distance and recruitment source display labels come from `questions.data.options` for categories `primary_method_of_transport`, `willing_to_travel` and `where_did_you_hear_about_us_candidate_answer` respectively. `answer_options` provides answer associations, not display labels.
+
+Submit resolves these three labels using its existing questions batch read and serializes selected labels in an internal `display_labels` map alongside unchanged raw payload values. New jobs render those labels without reading question options again. A DB label change after enqueue does not change the queued PDF. Missing question/options/key, null/empty/non-string label falls back to the raw submitted value; no hardcoded fallback or new input validation is introduced.
+
+Older queued snapshots without `display_labels` resolve the three categories in one DB read before rendering. Their labels reflect current DB data because no historical label snapshot exists. Already stored PDFs remain unchanged. Section titles and field captions remain aligned with FE; title, journey type and contact day/time mappings are outside these three question categories. Request/response schemas, error contracts and routes are unchanged.
+
 ## Queue operational dependency
 
 Use a dedicated Redis connection `permanent_intake`, queue `permanent_intake`; do not use the default sync driver or the recruitment `jobs` table. Run a dedicated worker with timeout 300s and retry_after 600s; candidate lock TTL 360s, using a shared Redis cache store. Lock contention releases the job without concurrent MM processing; attempts policy must account for contention. Preserve the existing default worker settings.
