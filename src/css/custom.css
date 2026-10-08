@@ -38,3 +38,20 @@ html.doc-sidebar-resizing * {
 html.doc-sidebar-resizing .theme-doc-sidebar-container {
   transition: none;
 }
+
+/* Keep deeply nested API resources readable at any sidebar width. */
+.theme-doc-sidebar-menu .menu__list .menu__list {
+  margin-left: 0.65rem;
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--ifm-toc-border-color);
+}
+
+.theme-doc-sidebar-menu .menu__link {
+  overflow-wrap: anywhere;
+}
+
+.sidebar-api-endpoint > .menu__link {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}

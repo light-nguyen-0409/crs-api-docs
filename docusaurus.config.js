@@ -1,4 +1,5 @@
 import {themes as prismThemes} from 'prism-react-renderer';
+import sidebarItemsGenerator from './sidebarItemsGenerator.js';
 
 const projectName = process.env.PROJECT_NAME ?? 'crs-api-docs';
 const organizationName = process.env.ORGANIZATION_NAME ?? 'light-nguyen-0409';
@@ -36,6 +37,7 @@ const config = {
         docs: {
           routeBasePath: 'docs',
           sidebarPath: './sidebars.js',
+          sidebarItemsGenerator,
           exclude: ['**/_meta/**', '**/_templates/**'],
         },
         blog: false,
@@ -62,6 +64,11 @@ const config = {
   ],
 
   themeConfig: {
+    docs: {
+      sidebar: {
+        autoCollapseCategories: false,
+      },
+    },
     colorMode: {
       respectPrefersColorScheme: true,
     },
