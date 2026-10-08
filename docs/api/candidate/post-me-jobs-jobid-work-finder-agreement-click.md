@@ -133,10 +133,6 @@ Errors contain `success`, `message`, `detail`, `errors` and do not expose `click
 }
 ```
 
-### FE PDF export handoff
+### Backend PDF handoff — approved, not yet deployed
 
-The response does not encode a timezone or promise an ISO date-time format. Display the returned timestamp unchanged. Do not append UTC/offset or parse it with the browser Date constructor using an assumed timezone. Any later timezone conversion requires separately verified storage/write timezone configuration. The usual DB value resembles `2026-10-08 09:15:30`; the API preserves the actual stored representation.
-
-Wait for successful metadata before exporting `permanent_candidate_form`. Render **Agreement first clicked at** using the returned timestamp string and **Agreement first click IP**; render `Not recorded` for a null IP. Use these server-returned values, not the browser clock or a separate client-IP lookup. On request failure/timeout, preserve the form and stop export/upload until retry succeeds. Store metadata per signed-in Candidate/job and refresh it when that context changes.
-
-After embedding the metadata, upload the PDF through the [existing file upload endpoint](/docs/api/candidate/post-me-files-type) with type `permanent_candidate_form` and `Gap-Job-ID`, then submit its returned file ID. The backend does not alter the PDF or verify its displayed metadata. Database timing is the audit reference. Frontend implementation/QA is a separate handoff; it has not been verified here.
+GAP-691 now plans backend-generated Permanent form PDFs in a background MM job. This supersedes the earlier FE export/upload instructions. BE reads persisted Candidate/job first-click metadata into the queued snapshot and renders the raw timestamp unchanged, without inferring a timezone. Missing legacy metadata displays `Not recorded`. FE submits CV + Agreement only and does not send IP/time back to populate the PDF. The click endpoint itself is outside this task's API-response changes. See [Permanent intake](/docs/flows/permanent-intake).

@@ -19,7 +19,7 @@ last_verified: "2026-10-08"
 
 ## Contract status
 
-`PARTIAL` — OpenAPI method/path matches runtime; some runtime details may be incomplete.
+**GAP-691 approved planned contract — NOT YET DEPLOYED (2026-10-08).** This page describes the approved async backend-generated form contract. Deployment and workers remain unverified.
 
 ### OpenAPI summary
 
@@ -87,9 +87,9 @@ Field types and descriptions below come from the matched OpenAPI schema. A `Not 
 | journey_type | string | Yes | Allowed values: passport, share_code, others. |
 | journey_type_other_document | string | No |  |
 | work_finder_agreement_accepted | boolean | Yes |  |
-| files | `array<object>` | Yes | Exactly three files are required, one CV, one Work Finder Agreement and one Permanent Candidate Form PDF. Upload the form to /me/files/permanent_candidate_form with Gap-Job-ID before submitting; send its returned File ID here. |
+| files | `array<object>` | Yes | Exactly two files: CV and Work Finder Agreement. The background backend job generates the Permanent Candidate Form PDF from the validated submitted payload. Do not upload or submit a Permanent form file ID. |
 | files[].file_id | integer | Yes |  |
-| files[].type | string | Yes | Allowed values: cv, work_finder_agreement, permanent_candidate_form. |
+| files[].type | string | Yes | Allowed values: cv, work_finder_agreement. |
 
 Example shape (placeholder values; apply the field constraints above):
 
@@ -127,6 +127,10 @@ Example shape (placeholder values; apply the field constraints above):
     {
       "file_id": 1,
       "type": "cv"
+    },
+    {
+      "file_id": 2,
+      "type": "work_finder_agreement"
     }
   ]
 }
@@ -138,14 +142,29 @@ Example shape (placeholder values; apply the field constraints above):
 
 | Status | Description | Content types |
 |---|---|---|
-| `200` | Permanent intake submitted and synchronized | application/json |
+| `202` | Permanent intake saved and queued for background processing | application/json |
 | `400` | FormRequest validation failed | application/json |
 | `401` | Unauthorized | application/json |
 | `404` | Candidate job or file not found | application/json |
 | `409` | Permanent intake already submitted | application/json |
 | `422` | Business input error | application/json |
-| `502` | MatchMaker synchronization failed after GAP persistence | application/json |
+| `502` | Queue dispatch failed after GAP persistence; intake was not accepted for background processing | application/json |
 
+
+### Accepted response (202)
+
+```json
+{
+  "candidate_id": 1,
+  "job_id": 2,
+  "candidate_job_id": 3,
+  "submission_status": "pending"
+}
+```
+
+This top-level response confirms enqueue only. There is no submission ID or polling endpoint. Do not display MatchMaker synchronization as complete. The candidate becomes permanent only after the job succeeds. Background PDF/storage/MM failures use queue retries, failed jobs and logs; they do not change the already-returned response.
+
+Local profile/address/answer writes commit before Redis enqueue. If enqueue fails, the endpoint returns configured `permanentMatchMakerSyncFailed` (HTTP 502, code 1017) with a dispatch-failure message; saved local profile data remains and `is_permanent` is false. No false pending response is returned. A lost HTTP response may still follow a successful enqueue; there is no exactly-once submit guarantee.
 
 ## Errors
 
@@ -156,7 +175,7 @@ Example shape (placeholder values; apply the field constraints above):
 | `404` | Candidate job or file not found | application/json |
 | `409` | Permanent intake already submitted | application/json |
 | `422` | Business input error | application/json |
-| `502` | MatchMaker synchronization failed after GAP persistence | application/json |
+| `502` | Queue dispatch failed after GAP persistence; intake was not accepted for background processing | application/json |
 
 ## Flow
 
