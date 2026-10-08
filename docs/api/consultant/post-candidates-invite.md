@@ -113,10 +113,12 @@ Zero, negative IDs, arrays, and noninteger values are rejected. A positive ID mu
 
 ### Link resolution and side effects
 
+The GAP-734 external-ID validation amendment is documented before backend implementation; deployment remains unverified.
+
 1. Authenticate the consultant and authorize the header branch.
 2. Validate the request and read the branch registration link. A link is required for both default and specific-job selection.
 3. Omitted/null `job_id`: use the original registration link unchanged.
-4. Specific `job_id`: look up the job by internal ID and branch ID; require a numeric external ID, a title, and a nonblank job reference before any invitation write or email.
+4. Specific `job_id`: look up the job by internal ID and branch ID; require a nonblank external ID, a title, and a nonblank job reference before any invitation write or email. External IDs may contain digits, letters, or both; the internal request `job_id` remains a positive integer.
 5. Replace only the values of the existing job parameters using this mapping:
 
 | Registration-link key (unchanged) | Selected job source |
