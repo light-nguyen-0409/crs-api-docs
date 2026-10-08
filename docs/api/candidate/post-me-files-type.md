@@ -134,3 +134,8 @@ Invalid MIME/extension or a file exceeding the size limit returns HTTP `400`, `w
 ```
 
 An unsupported MIME returns the same envelope with a file-type validation message instead. Missing/invalid Candidate authentication remains HTTP `401`. ClamAV rejection and upload blocking retain the existing error handling and candidate-blocking behavior.
+
+
+## Permanent form PDF metadata
+
+Planned GAP-691 integration, not yet deployed: FE embeds the [persisted Agreement first-click metadata](/docs/api/candidate/post-me-jobs-jobid-work-finder-agreement-click#gap-691-first-click-metadata-contract) in the PDF before uploading type `permanent_candidate_form` with `Gap-Job-ID`. Upload still accepts PDF for this type and returns the existing File resource. Backend does not edit or attest to the rendered IP/time in the uploaded PDF; consult stored Candidate/job timing for the source values.

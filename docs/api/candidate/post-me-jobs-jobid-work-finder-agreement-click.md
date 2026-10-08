@@ -76,3 +76,65 @@ The matched OpenAPI operation does not declare a request body. Runtime body beha
 ## Flow
 
 Flow baseline: [SPEC-039](/docs/flows/permanent-intake) — Permanent candidate intake.
+
+
+## GAP-691 first-click metadata contract
+
+Approved planned contract (2026-10-08), not yet deployed. This section supersedes the generic response placeholders above. Backend and STG/production verification are pending.
+
+Use a Candidate Bearer token and the owned job ID in the path. No request body or `Gap-Job-ID` header is required. Candidate/job ownership and edit-lock middleware still apply. Body fields such as `ip`, `clicked_at`, `candidate_id` or `job_id` do not supply the metadata.
+
+```bash
+curl --request POST 'http://localhost:8081/api/candidate/me/jobs/123/work_finder_agreement/click' \
+  --header 'Authorization: Bearer <candidate-token>'
+```
+
+HTTP `200` returns exactly five top-level fields, without a `data` wrapper or success `errors` array:
+
+```json
+{
+  "success": true,
+  "message": "Agreement click recorded",
+  "detail": "",
+  "clicked_at": "2026-10-08T09:15:30+00:00",
+  "ip": "192.0.2.10"
+}
+```
+
+| Field | Contract |
+|---|---|
+| success | boolean, true |
+| message | string, Agreement click recorded |
+| detail | string, empty |
+| clicked_at | required string/date-time; persisted first click, ISO 8601 UTC (+00:00), second precision |
+| ip | required property, string or null; persisted first-click IPv4/IPv6; null for legacy missing IP |
+
+If another request arrives later from `192.0.2.11`, it returns the same timestamp and `192.0.2.10`. Both values come from the stored timing row after persistence, rather than the latest request context. A pre-existing timing is preserved. A legacy row with a timestamp and no IP returns the stored timestamp and `ip: null`; it is not backfilled with the current IP.
+
+These values describe the **first opening/click of the Agreement**, not acceptance, signing or intake submission. The IP is resolved server-side using existing trusted-proxy middleware; deployment proxy correctness remains unverified.
+
+### Errors
+
+| HTTP | Existing Candidate Status error contract |
+|---|---|
+| 400 | Candidate profile or job state locked; existing middleware envelope |
+| 401 | Missing/invalid Candidate authentication |
+| 404 | candidateJobNotFound, code 1015; job missing or not owned |
+| 500 | severError, code 1005; persisted click timestamp unavailable |
+
+Errors contain `success`, `message`, `detail`, `errors` and do not expose `clicked_at` or `ip`. The 500 missing-metadata example is:
+
+```json
+{
+  "success": false,
+  "message": "",
+  "detail": "Server error",
+  "errors": [{"code": 1005, "message": "Agreement click metadata is unavailable."}]
+}
+```
+
+### FE PDF export handoff
+
+Wait for successful metadata before exporting `permanent_candidate_form`. Render **Agreement first clicked at** with UTC/offset and **Agreement first click IP**; render `Not recorded` for a null IP. Use these server-returned values, not the browser clock or a separate client-IP lookup. On request failure/timeout, preserve the form and stop export/upload until retry succeeds. Store metadata per signed-in Candidate/job and refresh it when that context changes.
+
+After embedding the metadata, upload the PDF through the [existing file upload endpoint](/docs/api/candidate/post-me-files-type) with type `permanent_candidate_form` and `Gap-Job-ID`, then submit its returned file ID. The backend does not alter the PDF or verify its displayed metadata. Database timing is the audit reference. Frontend implementation/QA is a separate handoff; it has not been verified here.

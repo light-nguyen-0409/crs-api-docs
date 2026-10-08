@@ -70,3 +70,10 @@ No idempotency key or exactly-once MatchMaker guarantee is implemented in the cu
 ## GAP-691 CV upload formats
 
 Approved contract, pending backend verification (2026-10-08); STG/production deployment remains unverified. Upload the CV through `POST /api/candidate/me/files/cv` before submitting its returned file ID. Accepted CV formats are PDF, DOC, DOCX, PNG, JPG and JPEG, with detected MIME validation, ClamAV scanning and a maximum size of 10 MiB. See the [CV upload contract](/docs/api/candidate/post-me-files-type#gap-691-cv-image-upload-contract) for request, response and validation examples. This change only expands CV upload formats; it does not change the Permanent intake submission shape or MatchMaker workflow.
+
+
+## Agreement metadata for FE form PDF export
+
+Approved planned GAP-691 contract (2026-10-08), not yet deployed: the [Agreement click API](/docs/api/candidate/post-me-jobs-jobid-work-finder-agreement-click#gap-691-first-click-metadata-contract) returns stored first-click `clicked_at` (ISO 8601 UTC) and `ip` at the top level alongside the existing success fields. Repeated calls return the original pair, and legacy missing IP is null.
+
+FE waits for a successful click response, associates metadata with the Candidate/job, and embeds it in the form PDF under **Agreement first clicked at** and **Agreement first click IP** (null IP: `Not recorded`). Preserve timezone/offset. A failed request blocks export/upload until retry succeeds; preserve entered form data. Then upload `permanent_candidate_form` with `Gap-Job-ID` and use the returned file ID in the existing submit workflow. These fields do not represent consent/signature/submit time. Backend PDF processing and the upload/submit/MatchMaker behavior are unchanged; FE implementation and deployed behavior remain unverified.
