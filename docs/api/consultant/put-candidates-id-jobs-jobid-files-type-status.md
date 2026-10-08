@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/consultant/candidates/{id}/jobs/{jobId}/files/{type}/status`
@@ -40,7 +40,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 |---|---|---|---|
 | `id` | UNVERIFIED | UNVERIFIED | UNVERIFIED |
 | `jobId` | UNVERIFIED | UNVERIFIED | UNVERIFIED |
-| `type` | UNVERIFIED | UNVERIFIED | UNVERIFIED |
+| `type` | Yes | — | Use a job-associated file type or `all_job_associated_documents`; see [file type values](/docs/api/path-parameter-values#file-types). |
 
 ### Query parameters
 
@@ -52,7 +52,11 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `status` | string | Required by runtime behavior | Use [file status values](/docs/api/path-parameter-values#file-status-values). |
 
 ## Response
 

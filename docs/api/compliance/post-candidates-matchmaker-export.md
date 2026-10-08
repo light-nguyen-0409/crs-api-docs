@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/compliance/candidates/matchmaker/export`
@@ -47,7 +47,26 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `start_date_time` | string (date) | Yes | `required\|date` |
+| `end_date_time` | string (date) | Yes | `required\|date\|after_or_equal:start_date_time` |
+| `legal_entity_id` | integer | Yes | `required\|integer` |
+| `branch_ids` | array | Yes | `required\|array` |
+| `branch_ids.*` | integer | No | `integer` |
+
+Send `start_date_time` and `end_date_time` as date/date-time strings accepted by Laravel's date validator. Example:
+
+```json
+{
+  "start_date_time": "2026-10-01T00:00:00Z",
+  "end_date_time": "2026-10-08T23:59:59Z",
+  "legal_entity_id": 12,
+  "branch_ids": [34, 35]
+}
+```
 
 ## Response
 

@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/user/auth/refresh`
@@ -46,7 +46,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+The runtime controller does not consume a request body for this action.
 
 ## Response
 

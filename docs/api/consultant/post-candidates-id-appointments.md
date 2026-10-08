@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/candidates/{id}/appointments"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/consultant/candidates/{id}/appointments`
@@ -53,6 +53,49 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`AppointmentUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| type | string | Yes | appointment type: Now only has "interview" |
+| candidate_id | integer | Yes |  |
+| job_id | integer | Yes |  |
+| branch_id | integer | No | Required only when the type is "in_branch" |
+| method | string | Yes | "remote" / "in_branch" / "client_location" |
+| meeting_url | string | No | required only when type is "remote" |
+| documents | `array<string>` | No | required only when type is "in_branch" |
+| location_detail | string | No | requires only when type is "client_location" |
+| date | string | Yes | YYYY-MM-DD format |
+| time | string | Yes | hh:mm format |
+| note | string | No |  |
+| status | string | No | "booked" / "finished" / "canceled", default value is "booked" |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "type": "string",
+  "candidate_id": 1,
+  "job_id": 1,
+  "branch_id": 1,
+  "method": "string",
+  "meeting_url": "string",
+  "documents": [
+    "string"
+  ],
+  "location_detail": "string",
+  "date": "string",
+  "time": "string",
+  "note": "string",
+  "status": "string"
+}
+```
 
 ## Response
 

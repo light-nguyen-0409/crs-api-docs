@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me/verify_mm_profile_picture"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/verify_mm_profile_picture`
@@ -49,7 +49,20 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 | Required | Content types | Description |
 |---|---|---|
-| No | multipart/form-data | OpenAPI requestBody |
+| Yes (runtime) | multipart/form-data | Required `file` upload; OpenAPI omits runtime requiredness |
+
+
+#### Payload schema
+
+The file field is required by the runtime controller even though OpenAPI marks the request body optional.
+
+#### `multipart/form-data` payload
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| file | binary file | Yes (runtime) | Uploaded file part required by the backend. |
+
+Send each field as a multipart form part. The backend requires the `file` part.
 
 ## Response
 

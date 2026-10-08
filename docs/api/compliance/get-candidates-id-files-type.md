@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Compliance.yaml"
 openapi_path: "/api/compliance/candidates/{id}/files/{type}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `GET /api/compliance/candidates/{id}/files/{type}`
@@ -40,7 +40,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
 | `id` | Yes | `id` | OpenAPI name matches. |
-| `type` | Yes | `type` | OpenAPI name matches. |
+| `type` | Yes | `type` | See [file type values](/docs/api/path-parameter-values#file-types). |
 
 ### Query parameters
 

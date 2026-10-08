@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/consultant/candidates/{id}/application_pack`
@@ -50,7 +50,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+The runtime handler reads request input fields: `branch_id`. The controller does not declare a field-level JSON body schema for these inputs; route scope may supply some values through headers or middleware attributes.
 
 ## Response
 

@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/candidates/{id}/files/{type}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `GET /api/consultant/candidates/{id}/files/{type}`
@@ -41,7 +41,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
 | `id` | Yes | `id` | OpenAPI name matches. |
-| `type` | Yes | `type` | OpenAPI name matches. |
+| `type` | Yes | `type` | See [file type values](/docs/api/path-parameter-values#file-types). |
 
 ### Query parameters
 
@@ -53,9 +53,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-| Required | Content types | Description |
-|---|---|---|
-| No | multipart/form-data | OpenAPI requestBody |
+The backend controller does not consume a request body for this GET operation. The matched OpenAPI file declares one here, so its request-body entry does not match runtime behavior.
 
 ## Response
 

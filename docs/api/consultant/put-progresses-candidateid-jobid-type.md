@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/consultant/progresses/{candidateId}/{jobId}/{type}`
@@ -38,9 +38,9 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
-| `candidateId` | UNVERIFIED | UNVERIFIED | UNVERIFIED |
-| `jobId` | UNVERIFIED | UNVERIFIED | UNVERIFIED |
-| `type` | UNVERIFIED | UNVERIFIED | UNVERIFIED |
+| `candidateId` | Yes | — | Integer candidate ID. |
+| `jobId` | Yes | — | Integer job ID associated with the candidate. |
+| `type` | Yes | — | See [Registration progress values](/docs/api/path-parameter-values#registration-progress). |
 
 ### Query parameters
 
@@ -52,7 +52,19 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object with the required `progress` field. The controller requires this field but does not enforce a fixed status enum; these values are used by the registration flow:
+
+| Field | Type | Required | Values / behavior |
+|---|---|---|---|
+| `progress` | string | Yes | `locked`, `no_info`, `in_progress`, or `completed`. |
+
+`escalated` is calculated by the backend from unresolved issues; it is not a client update value.
+
+```json
+{
+  "progress": "completed"
+}
+```
 
 ## Response
 

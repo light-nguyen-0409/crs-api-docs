@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Compliance.yaml"
 openapi_path: "/api/compliance/candidates/{id}/update_status"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/compliance/candidates/{id}/update_status`
@@ -52,6 +52,25 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`CandidateStatusUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| status | string | Not specified | status must be one of more_information_required / more_action_required / halt_candidate_journey |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "status": "string"
+}
+```
 
 ## Response
 

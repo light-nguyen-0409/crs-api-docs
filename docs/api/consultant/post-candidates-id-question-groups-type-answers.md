@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/candidates/{id}/question_groups/{type}/answers"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/consultant/candidates/{id}/question_groups/{type}/answers`
@@ -39,7 +39,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
 | `id` | Yes | `id` | OpenAPI name matches. |
-| `type` | Yes | `type` | OpenAPI name matches. |
+| `type` | Yes | `type` | See [Staff question-group values](/docs/api/path-parameter-values#question-groups). |
 
 ### Query parameters
 
@@ -54,6 +54,36 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`AnswersUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| answers | `array<AnswerUpdate>` | Yes |  |
+| answers[].question_id | integer | Yes |  |
+| answers[].answer | `array<string>` | Yes |  |
+
+Each `question_id` must belong to the selected group. Answer values depend on that question's type and configured options.
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "answers": [
+    {
+      "question_id": 1,
+      "answer": [
+        "string"
+      ]
+    }
+  ]
+}
+```
 
 ## Response
 

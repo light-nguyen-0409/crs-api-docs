@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/candidate/me`
@@ -50,6 +50,59 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`MeUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| title | string | Not specified |  |
+| first_name | string | Not specified |  |
+| middle_name | string | Not specified |  |
+| last_name | string | Not specified |  |
+| date_of_birth | string | Not specified | Format: YYYY-MM-DD |
+| journey_type | string | Not specified | passport / share_code / other |
+| phone_number | string | Not specified |  |
+| phone_number_country_code | string | Not specified |  |
+| contact_dates | `array<string>` | Not specified | array of dates ( YYYY-MM-DD formats ) |
+| contact_times | `array<string>` | Not specified |  |
+| gender | string | Not specified | male / female / other |
+| nationality_code | string | Not specified |  |
+| ethnicity_code | string | Not specified |  |
+| should_delete_personal_info | string | Not specified |  |
+| national_insurance_number | string | Not specified |  |
+| unable_to_provide_national_insurance_number | string | Not specified |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "title": "string",
+  "first_name": "string",
+  "middle_name": "string",
+  "last_name": "string",
+  "date_of_birth": "string",
+  "journey_type": "string",
+  "phone_number": "string",
+  "phone_number_country_code": "string",
+  "contact_dates": [
+    "string"
+  ],
+  "contact_times": [
+    "string"
+  ],
+  "gender": "string",
+  "nationality_code": "string",
+  "ethnicity_code": "string",
+  "should_delete_personal_info": "string",
+  "national_insurance_number": "string",
+  "unable_to_provide_national_insurance_number": "string"
+}
+```
 
 ## Response
 

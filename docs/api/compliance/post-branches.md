@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Compliance.yaml"
 openapi_path: "/api/compliance/branches"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/compliance/branches`
@@ -50,6 +50,50 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`BranchAdd`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| branch_id | number | Not specified |  |
+| external_id | string | Not specified |  |
+| name | string | Not specified |  |
+| type | string | Not specified | Branch type branch, onsite, subsite |
+| legal_entity | LegalEntity | Not specified |  |
+| email | string | Not specified |  |
+| phone_number | string | Not specified |  |
+| phone_number_country_code | string | Not specified |  |
+| manager_name | string | Not specified |  |
+| director_name | string | Not specified |  |
+| client_name | string | Not specified |  |
+| map_link | string | Not specified |  |
+| parent_branch_id | number | Not specified | Parent branch id required if branch type is onsite or subsite |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "branch_id": 1,
+  "external_id": "string",
+  "name": "string",
+  "type": "string",
+  "legal_entity": {
+  },
+  "email": "string",
+  "phone_number": "string",
+  "phone_number_country_code": "string",
+  "manager_name": "string",
+  "director_name": "string",
+  "client_name": "string",
+  "map_link": "string",
+  "parent_branch_id": 1
+}
+```
 
 ## Response
 

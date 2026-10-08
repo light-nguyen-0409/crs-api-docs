@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me/verify_mm_ni_number"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/verify_mm_ni_number`
@@ -50,6 +50,25 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`MatchMakerNiNumberVerification`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| token | string | No |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "token": "string"
+}
+```
 
 ## Response
 

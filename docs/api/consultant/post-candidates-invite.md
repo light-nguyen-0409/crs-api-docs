@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/consultant/candidates/invite`
@@ -48,7 +48,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The request fields, required values, optional GAP-734 `job_id`, and examples are documented in [the GAP-734 request schema below](#request-schema). The `job_id` extension is present in the local backend implementation; deployment is unverified.
 
 ## Response
 

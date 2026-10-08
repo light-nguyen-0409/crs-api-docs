@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me/address"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/candidate/me/address`
@@ -50,6 +50,33 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`AddressUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| building | string | Not specified |  |
+| street | string | Not specified |  |
+| town_city | string | Not specified |  |
+| county | string | Not specified |  |
+| postcode | string | Not specified |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "building": "string",
+  "street": "string",
+  "town_city": "string",
+  "county": "string",
+  "postcode": "string"
+}
+```
 
 ## Response
 

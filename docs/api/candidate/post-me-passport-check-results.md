@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/passport/check_results`
@@ -47,7 +47,11 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `person_entry_id` | string | Not enforced by request rules | `No field rule declared` |
 
 ## Response
 

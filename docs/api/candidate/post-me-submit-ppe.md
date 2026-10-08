@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/submit_ppe`
@@ -47,7 +47,21 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `answers` | array of answer objects | Required by runtime behavior | Must not be empty; each item has `question_id` and an `answer` array whose values depend on the question |
+
+The answer item shape is shared with [question-group answer submissions](/docs/api/candidate/post-question-groups-type-answers). The `answer` values must match the selected question's configured type/options.
+
+```json
+{
+  "answers": [
+    { "question_id": 123, "answer": ["yes"] }
+  ]
+}
+```
 
 ## Response
 

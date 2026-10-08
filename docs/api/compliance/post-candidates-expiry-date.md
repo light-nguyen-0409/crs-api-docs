@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/compliance/candidates/expiry_date`
@@ -47,7 +47,21 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `candidate_id` | integer | Yes | `required\|integer` |
+| `expiry_date` | date string | No validator rule | The controller parses the supplied value as a date; send a valid date such as `2026-12-31` |
+
+Example:
+
+```json
+{
+  "candidate_id": 42,
+  "expiry_date": "2026-12-31"
+}
+```
 
 ## Response
 

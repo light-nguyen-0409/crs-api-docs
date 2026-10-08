@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me/permanent-intake"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/permanent-intake`
@@ -54,6 +54,83 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | Yes | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`PermanentIntakeRequest`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| job_id | integer | Yes |  |
+| title | string | Yes |  |
+| first_name | string | Yes |  |
+| middle_name | string | No |  |
+| last_name | string | Yes |  |
+| email | string | Yes |  |
+| phone_number | string | Yes |  |
+| phone_number_country_code | string | No |  |
+| date_of_birth | string | Yes |  |
+| address | object | Yes |  |
+| address.building | string | Yes |  |
+| address.street | string | Yes |  |
+| address.town_city | string | Yes |  |
+| address.county | string | Yes |  |
+| address.postcode | string | Yes |  |
+| contact_dates | `array<string>` | Yes |  |
+| contact_times | `array<string>` | Yes |  |
+| transportation_method | string | Yes |  |
+| transportation_distance | string | Yes |  |
+| recruitment_source | string | Yes |  |
+| journey_type | string | Yes | Allowed values: passport, share_code, others. |
+| journey_type_other_document | string | No |  |
+| work_finder_agreement_accepted | boolean | Yes |  |
+| files | `array<object>` | Yes | Exactly three files are required, one CV, one Work Finder Agreement and one Permanent Candidate Form PDF. Upload the form to /me/files/permanent_candidate_form with Gap-Job-ID before submitting; send its returned File ID here. |
+| files[].file_id | integer | Yes |  |
+| files[].type | string | Yes | Allowed values: cv, work_finder_agreement, permanent_candidate_form. |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "job_id": 1,
+  "title": "string",
+  "first_name": "string",
+  "middle_name": "string",
+  "last_name": "string",
+  "email": "string",
+  "phone_number": "string",
+  "phone_number_country_code": "string",
+  "date_of_birth": "YYYY-MM-DD",
+  "address": {
+    "building": "string",
+    "street": "string",
+    "town_city": "string",
+    "county": "string",
+    "postcode": "string"
+  },
+  "contact_dates": [
+    "string"
+  ],
+  "contact_times": [
+    "string"
+  ],
+  "transportation_method": "string",
+  "transportation_distance": "string",
+  "recruitment_source": "string",
+  "journey_type": "passport",
+  "journey_type_other_document": "string",
+  "work_finder_agreement_accepted": true,
+  "files": [
+    {
+      "file_id": 1,
+      "type": "cv"
+    }
+  ]
+}
+```
 
 ## Response
 

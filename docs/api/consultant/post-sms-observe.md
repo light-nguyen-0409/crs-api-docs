@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/consultant/sms/observe`
@@ -45,7 +45,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+The endpoint reads the raw SMS provider callback body. The controller does not parse it into a field-level JSON schema; send the provider payload in the format expected by that integration.
 
 ## Response
 

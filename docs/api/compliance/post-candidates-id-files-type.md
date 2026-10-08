@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Compliance.yaml"
 openapi_path: "/api/compliance/candidates/{id}/files/{type}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/compliance/candidates/{id}/files/{type}`
@@ -38,11 +38,11 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
 | `id` | Yes | `id` | OpenAPI name matches. |
-| `type` | Yes | `type` | OpenAPI name matches. |
+| `type` | Yes | `type` | See [file type values](/docs/api/path-parameter-values#file-types). |
 
 ### Query parameters
 
-The matched OpenAPI operation does not declare query parameters. Runtime query behavior remains UNVERIFIED.
+For file types outside the [candidate-associated file type list](/docs/api/path-parameter-values#candidate-associated-file-types), `job_id` is required and identifies the candidate's job. Candidate-associated types do not require it.
 
 ### Headers
 
@@ -52,7 +52,20 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 | Required | Content types | Description |
 |---|---|---|
-| No | application/json | OpenAPI requestBody |
+| Yes (runtime) | multipart/form-data | Required `file` upload |
+
+
+#### Payload schema
+
+The file field is required by the runtime controller even though OpenAPI marks the request body optional.
+
+#### `multipart/form-data` payload
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| file | binary file | Yes (runtime) | Uploaded file part required by the backend. |
+
+Send each field as a multipart form part. The backend requires the `file` part.
 
 ## Response
 

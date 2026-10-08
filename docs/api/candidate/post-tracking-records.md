@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/tracking_records"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/tracking_records`
@@ -52,6 +52,29 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`AddTrackRecord`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| message | string | Yes | ex. Create a user account |
+| candidate_id | integer | Yes |  |
+| job_id | integer | Yes |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "message": "string",
+  "candidate_id": 1,
+  "job_id": 1
+}
+```
 
 ## Response
 

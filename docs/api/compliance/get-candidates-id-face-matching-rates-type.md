@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Compliance.yaml"
 openapi_path: "/api/compliance/candidates/{id}/face_matching_rates/{type}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `GET /api/compliance/candidates/{id}/face_matching_rates/{type}`
@@ -40,7 +40,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
 | `id` | Yes | `id` | OpenAPI name matches. |
-| `type` | Yes | `id` | OpenAPI uses `id` for this placeholder. |
+| `type` | Yes | `id` | See [face-matching rate types](/docs/api/path-parameter-values#face-matching-rates). The runtime parameter is `type`; OpenAPI names this placeholder `id`. |
 
 ### Query parameters
 

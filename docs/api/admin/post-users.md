@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Admin.yaml"
 openapi_path: "/api/admin/users"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/admin/users`
@@ -50,6 +50,43 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`UserAdd`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| name | string | Not specified |  |
+| email | string | Not specified |  |
+| mmid | string | Not specified |  |
+| roles | `array<—>` | Not specified |  |
+| status | string | Not specified |  |
+| can_access_all_branches | boolean | Not specified |  |
+| branches | `array<—>` | Not specified |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "name": "string",
+  "email": "string",
+  "mmid": "string",
+  "roles": [
+    {
+    }
+  ],
+  "status": "string",
+  "can_access_all_branches": true,
+  "branches": [
+    {
+    }
+  ]
+}
+```
 
 ## Response
 

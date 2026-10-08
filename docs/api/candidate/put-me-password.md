@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me/password"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/candidate/me/password`
@@ -50,6 +50,27 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`PasswordUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| current_password | string | Yes |  |
+| new_password | string | Yes |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "current_password": "string",
+  "new_password": "string"
+}
+```
 
 ## Response
 

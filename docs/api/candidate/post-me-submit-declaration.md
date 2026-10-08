@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/submit_declaration`
@@ -47,7 +47,32 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `me` | object | Required in practice | Carries candidate declaration/profile fields; required members below |
+| `answers` | object keyed by question-group type | Optional | Each value is an answer array; question groups use [candidate question group values](/docs/api/path-parameter-values#candidate-question-groups) |
+| `me.gender` | string | Yes | `required\|string\|max:255` |
+| `me.nationality_code` | string | Yes | `required\|string\|max:255` |
+| `me.ethnicity_code` | string | Yes | `required\|string\|max:255` |
+
+Each answer item has a numeric `question_id` and an `answer` array. The answer values depend on the question's type and configured options.
+
+```json
+{
+  "me": {
+    "gender": "female",
+    "nationality_code": "GB",
+    "ethnicity_code": "A"
+  },
+  "answers": {
+    "declarations_agreements": [
+      { "question_id": 123, "answer": ["agree"] }
+    ]
+  }
+}
+```
 
 ## Response
 

@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Compliance.yaml"
 openapi_path: "/api/compliance/candidates/{id}/bank-account"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/compliance/candidates/{id}/bank-account`
@@ -52,6 +52,31 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`BankAccountUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| bank_name | string | Not specified |  |
+| account_number | string | Not specified |  |
+| account_name | string | Not specified |  |
+| bank_sort_code | string | Not specified |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "bank_name": "string",
+  "account_number": "string",
+  "account_name": "string",
+  "bank_sort_code": "string"
+}
+```
 
 ## Response
 

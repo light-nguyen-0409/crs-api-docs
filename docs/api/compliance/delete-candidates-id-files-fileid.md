@@ -50,7 +50,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+This operation does not define a request body; send inputs through the documented path or query parameters.
 
 ## Response
 

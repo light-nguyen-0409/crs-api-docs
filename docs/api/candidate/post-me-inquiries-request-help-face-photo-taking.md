@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/me/inquiries/request_help_face_photo_taking"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/candidate/me/inquiries/request_help_face_photo_taking`
@@ -50,6 +50,25 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`MeCannotTakePhotoRequest`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| cannot_take_photo_by_candidate | string | Not specified |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "cannot_take_photo_by_candidate": "string"
+}
+```
 
 ## Response
 

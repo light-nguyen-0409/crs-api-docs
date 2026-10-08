@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/progresses/{type}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/candidate/progresses/{type}`
@@ -38,7 +38,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
-| `type` | Yes | `type` | OpenAPI name matches. |
+| `type` | Yes | `type` | See [Registration progress values](/docs/api/path-parameter-values#registration-progress). |
 
 ### Query parameters
 
@@ -50,7 +50,19 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-The matched OpenAPI operation does not declare a request body. Runtime body behavior remains UNVERIFIED.
+Send a JSON object with the required `progress` field. The controller requires this field but does not enforce a fixed status enum; these values are used by the registration flow:
+
+| Field | Type | Required | Values / behavior |
+|---|---|---|---|
+| `progress` | string | Yes | `locked`, `no_info`, `in_progress`, or `completed`. Locking is allowed only for `right_to_work_proofs` and `contracts`. |
+
+`escalated` is calculated by the backend from unresolved issues; it is not a client update value.
+
+```json
+{
+  "progress": "completed"
+}
+```
 
 ## Response
 

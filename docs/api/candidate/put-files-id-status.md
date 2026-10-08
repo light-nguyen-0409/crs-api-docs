@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/candidate/files/{id}/status`
@@ -50,7 +50,11 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`).
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `status` | string | Yes | Required; use [file status values](/docs/api/path-parameter-values#file-status-values). Candidate self-service cannot set `approved`. |
 
 ## Response
 

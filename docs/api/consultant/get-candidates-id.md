@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/candidates/{id}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `GET /api/consultant/candidates/{id}`
@@ -52,9 +52,7 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-| Required | Content types | Description |
-|---|---|---|
-| No | application/json | OpenAPI requestBody |
+The backend controller does not consume a request body for this GET operation. The matched OpenAPI file declares one here, so its request-body entry does not match runtime behavior.
 
 ## Response
 

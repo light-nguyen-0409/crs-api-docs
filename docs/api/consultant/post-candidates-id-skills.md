@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/candidates/{id}/skills"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `POST /api/consultant/candidates/{id}/skills`
@@ -53,6 +53,25 @@ If protected, use the Authorization header from the [authentication guide](/docs
 | Required | Content types | Description |
 |---|---|---|
 | No | application/json | OpenAPI requestBody |
+
+
+#### Payload schema
+
+Field types and descriptions below come from the matched OpenAPI schema. A `Not specified` required value means OpenAPI omits that requiredness; backend validation can add constraints.
+
+#### `application/json` payload (`CandidateSkillUpdate`)
+
+| Field | Type | Required by OpenAPI | Description |
+|---|---|---|---|
+| skill_id | string | Yes |  |
+
+Example shape (placeholder values; apply the field constraints above):
+
+```json
+{
+  "skill_id": "string"
+}
+```
 
 ## Response
 

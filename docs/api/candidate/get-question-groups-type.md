@@ -12,7 +12,7 @@ contract_status: "PARTIAL"
 openapi_source: "documents/Gap-API-Candidate.yaml"
 openapi_path: "/api/candidate/question_groups/{type}"
 openapi_match: "EXACT_PATH"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `GET /api/candidate/question_groups/{type}`
@@ -39,7 +39,7 @@ If this route is protected, follow the [authentication guide](/docs/authenticati
 
 | Runtime parameter | Required | OpenAPI name | Notes |
 |---|---|---|---|
-| `type` | Yes | `type` | OpenAPI name matches. |
+| `type` | Yes | `type` | See [Candidate question-group values](/docs/api/path-parameter-values#candidate-question-groups). |
 
 ### Query parameters
 

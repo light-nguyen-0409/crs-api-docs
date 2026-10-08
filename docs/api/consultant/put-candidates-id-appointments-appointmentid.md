@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
-last_verified: "2026-10-07"
+last_verified: "2026-10-08"
 ---
 
 # `PUT /api/consultant/candidates/{id}/appointments/{appointmentId}`
@@ -51,7 +51,36 @@ If protected, use the Authorization header from the [authentication guide](/docs
 
 ### Body
 
-UNVERIFIED — request body schema is not represented in the runtime route inventory.
+Send a JSON object (`Content-Type: application/json`). The fields below come from the backend request class; validation rules are listed where defined.
+
+| Field | Type | Required | Runtime validation |
+|---|---|---|---|
+| `type` | string | Yes | Must be `interview` |
+| `candidate_id` | integer | No | Legacy body field; route `candidateId` identifies the candidate |
+| `job_id` | integer | No | Accepted by the request class but not used by this update handler |
+| `branch_id` | integer | Conditional | Required when `method` is `in_branch` |
+| `method` | string | Yes | `remote`, `in_branch`, or `client_location` |
+| `meeting_url` | string | Conditional | Required when `method` is `remote` |
+| `documents` | array of strings | Conditional | Required for `in_branch`; values: `national_insurance`, `birth_certificates` |
+| `location_detail` | string | Conditional | Required when `method` is `client_location` |
+| `date` | string | Yes | Date in `d/m/Y` format, for example `08/10/2026` |
+| `time` | string | Yes | Time in `H:i` 24-hour format, for example `09:30` |
+| `note` | string | No | Optional appointment note |
+| `status` | string | No | Current handler sets status to `booked`; supplied value does not override it |
+| `reason_for_change` | string | Yes | Required by this update handler |
+| `user_id` | integer | No | Optional user ID; defaults to the authenticated user when omitted |
+
+```json
+{
+  "type": "interview",
+  "method": "remote",
+  "meeting_url": "https://example.com/meeting",
+  "date": "08/10/2026",
+  "time": "09:30",
+  "note": "Reschedule interview",
+  "reason_for_change": "Candidate requested a new time"
+}
+```
 
 ## Response
 
