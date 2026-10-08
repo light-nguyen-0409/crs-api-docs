@@ -80,7 +80,7 @@ Flow baseline: [SPEC-039](/docs/flows/permanent-intake) — Permanent candidate 
 
 ## GAP-691 first-click metadata contract
 
-Implemented and verified in the backend workspace (2026-10-08); STG/production deployment has not been verified. This section supersedes the generic response placeholders above. Affected tests passed (142 tests, 7,100 assertions); full default PHPUnit passed (612 tests, 9,114 assertions). Frontend PDF implementation/QA remains a separate handoff.
+Approved raw-timestamp amendment (2026-10-08), pending backend verification; STG/production deployment remains unverified. This section supersedes the previous ISO/UTC contract and the generic response placeholders above. Historical test counts applied to the previous ISO representation. Frontend PDF implementation/QA remains a separate handoff.
 
 Use a Candidate Bearer token and the owned job ID in the path. No request body or `Gap-Job-ID` header is required. Candidate/job ownership and edit-lock middleware still apply. Body fields such as `ip`, `clicked_at`, `candidate_id` or `job_id` do not supply the metadata.
 
@@ -96,7 +96,7 @@ HTTP `200` returns exactly five top-level fields, without a `data` wrapper or su
   "success": true,
   "message": "Agreement click recorded",
   "detail": "",
-  "clicked_at": "2026-10-08T09:15:30+00:00",
+  "clicked_at": "2026-10-08 09:15:30",
   "ip": "192.0.2.10"
 }
 ```
@@ -106,7 +106,7 @@ HTTP `200` returns exactly five top-level fields, without a `data` wrapper or su
 | success | boolean, true |
 | message | string, Agreement click recorded |
 | detail | string, empty |
-| clicked_at | required string/date-time; persisted first click, ISO 8601 UTC (+00:00), second precision |
+| clicked_at | required string; raw persisted first-click timestamp, returned unchanged without formatting, timezone conversion or precision truncation |
 | ip | required property, string or null; persisted first-click IPv4/IPv6; null for legacy missing IP |
 
 If another request arrives later from `192.0.2.11`, it returns the same timestamp and `192.0.2.10`. Both values come from the stored timing row after persistence, rather than the latest request context. A pre-existing timing is preserved. A legacy row with a timestamp and no IP returns the stored timestamp and `ip: null`; it is not backfilled with the current IP.
@@ -135,6 +135,8 @@ Errors contain `success`, `message`, `detail`, `errors` and do not expose `click
 
 ### FE PDF export handoff
 
-Wait for successful metadata before exporting `permanent_candidate_form`. Render **Agreement first clicked at** with UTC/offset and **Agreement first click IP**; render `Not recorded` for a null IP. Use these server-returned values, not the browser clock or a separate client-IP lookup. On request failure/timeout, preserve the form and stop export/upload until retry succeeds. Store metadata per signed-in Candidate/job and refresh it when that context changes.
+The response does not encode a timezone or promise an ISO date-time format. Display the returned timestamp unchanged. Do not append UTC/offset or parse it with the browser Date constructor using an assumed timezone. Any later timezone conversion requires separately verified storage/write timezone configuration. The usual DB value resembles `2026-10-08 09:15:30`; the API preserves the actual stored representation.
+
+Wait for successful metadata before exporting `permanent_candidate_form`. Render **Agreement first clicked at** using the returned timestamp string and **Agreement first click IP**; render `Not recorded` for a null IP. Use these server-returned values, not the browser clock or a separate client-IP lookup. On request failure/timeout, preserve the form and stop export/upload until retry succeeds. Store metadata per signed-in Candidate/job and refresh it when that context changes.
 
 After embedding the metadata, upload the PDF through the [existing file upload endpoint](/docs/api/candidate/post-me-files-type) with type `permanent_candidate_form` and `Gap-Job-ID`, then submit its returned file ID. The backend does not alter the PDF or verify its displayed metadata. Database timing is the audit reference. Frontend implementation/QA is a separate handoff; it has not been verified here.
