@@ -28,3 +28,13 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+html.doc-sidebar-resizing,
+html.doc-sidebar-resizing * {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+html.doc-sidebar-resizing .theme-doc-sidebar-container {
+  transition: none;
+}

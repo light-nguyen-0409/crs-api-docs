@@ -25,6 +25,11 @@ npm run serve
 
 The production files are written to `build/`.
 
+The search box in the top-right navbar searches documentation titles, headings,
+and content, including API endpoints. Press Ctrl+K (Command+K on macOS) to focus
+it. The local search index is generated during the production build; use
+`npm run build` followed by `npm run serve` to test search locally.
+
 ## GitHub Pages
 
 The repository is configured for GitHub Actions deployment at:
