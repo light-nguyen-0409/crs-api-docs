@@ -14,7 +14,6 @@ Events and queue jobs create state changes outside the immediate controller resp
 | Appointment repository save | AppointmentUpdateListener | Recalculate candidate aggregate/filter progress |
 | Escalated issue repository save | EscalatedIssueUpdateListener | Recalculate candidate aggregate/filter progress |
 | RTW approval branch in CandidateService::updateCandidate | OverallApproveListener | If alternative-bank conditions pass, request OnePay account and send email |
-| PermanentCandidateSubmittedEvent | SyncPermanentCandidateToMatchMakerListener | Call MatchMaker permanent-candidate sync |
 
 ## Welfare certificate job
 
@@ -30,7 +29,7 @@ Important boundaries:
 
 ## Event dispatch timing
 
-Permanent intake writes the local transaction first, dispatches PermanentCandidateSubmittedEvent, and sets is_permanent=true only after the listener returns successfully. The registered listener is not marked ShouldQueue; the current request therefore contains the sync call unless deployment changes event handling outside source evidence.
+**Approved GAP-691 cleanup — NOT YET DEPLOYED (2026-10-09).** Permanent intake dispatches `SyncPermanentCandidateToMatchMakerJob` directly to Redis/default after the local transaction. HTTP 202 reports pending processing; the worker generates/reuses the PDF, syncs MatchMaker and completes the candidate only after success. The unused Permanent submit Event/Listener and their registration are scheduled for removal. The table above describes the intended remaining registrations. Transient background errors retry; non-retryable/state errors fail without completion. An enqueue failure returns the existing HTTP 502 after local persistence. See [Permanent intake](/docs/flows/permanent-intake) for the exact boundaries.
 
 Appointment and issue listeners recalculate progress after source mutation. A successful source mutation and a successful listener effect should be checked separately when debugging progress.
 
