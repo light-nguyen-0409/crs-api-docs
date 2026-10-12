@@ -130,7 +130,7 @@ The backend's defined file status values are:
 | `rejected` |
 | `expired` |
 
-Candidate self-service status updates cannot set `approved`. Consultant and compliance updates validate the listed values on file-ID routes; consultant job-scoped type updates pass the value through without that membership check. A consultant also cannot approve an expired file.
+Candidate self-service status updates cannot set `approved`. The GAP-722 planned candidate status endpoint also rejects `rejected`, `expired`, and values outside `uploaded`, `released`, `read`, and `signed`; this planned contract is **NOT YET DEPLOYED (2026-10-12)**. Consultant and compliance updates validate the listed values on file-ID routes; consultant job-scoped type updates pass the value through without that membership check. A consultant also cannot approve an expired file.
 
 ## Contract-signature file types {#contract-signature-file-types}
 
