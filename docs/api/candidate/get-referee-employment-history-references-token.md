@@ -23,6 +23,8 @@ last_verified: "2026-10-07"
 
 `PARTIAL` — OpenAPI method/path matches runtime; some runtime details may be incomplete.
 
+The public referee token remains the lookup credential for this endpoint. GAP-723 does not add token expiry, revocation, or single-use state; the token remains usable while it matches the stored reference token. The endpoint is subject to the default `api` middleware rate limit of 120 requests per minute per client IP.
+
 ### OpenAPI summary
 
 update referee employment history reference
@@ -33,7 +35,7 @@ update referee employment history reference
 |---|
 | `api` |
 
-If this route is protected, follow the [authentication guide](/docs/authentication) for the required Authorization header and guard.
+This is a public referee link endpoint. No candidate or user authentication header is required.
 
 ## Request
 

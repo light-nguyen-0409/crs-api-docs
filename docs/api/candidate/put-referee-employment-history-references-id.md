@@ -21,6 +21,8 @@ last_verified: "2026-10-08"
 
 `PARTIAL` — OpenAPI method/path matches runtime; some runtime details may be incomplete.
 
+**GAP-723 approved planned contract — NOT YET DEPLOYED (2026-10-12).** The update must require the referee token and validate the token against the path `id` before any write or notification.
+
 ### OpenAPI summary
 
 update referee employment history reference
@@ -31,7 +33,7 @@ update referee employment history reference
 |---|
 | `api` |
 
-If this route is protected, follow the [authentication guide](/docs/authentication) for the required Authorization header and guard.
+This is a public referee link endpoint. No candidate or user authentication header is required. The request is still subject to the default `api` middleware rate limit of 120 requests per minute per client IP; excess requests receive `429`.
 
 ## Request
 
@@ -47,13 +49,13 @@ The matched OpenAPI operation does not declare query parameters. Runtime query b
 
 ### Headers
 
-If protected, use the Authorization header from the [authentication guide](/docs/authentication); add route-specific scope headers only when this endpoint requires them.
+No Authorization header is required for the public referee link. No route-specific scope header is required.
 
 ### Body
 
 | Required | Content types | Description |
 |---|---|---|
-| No | application/json | OpenAPI requestBody |
+| Yes | application/json | The referee token and update fields. The token is required to authorize the update for this reference ID. |
 
 
 #### Payload schema
@@ -62,8 +64,9 @@ Field types and descriptions below come from the matched OpenAPI schema. A `Not 
 
 #### `application/json` payload (`EmploymentHistoryReferenceUpdate`)
 
-| Field | Type | Required by OpenAPI | Description |
+| Field | Type | Required by planned contract | Description |
 |---|---|---|---|
+| token | string | Yes | Referee token received from the public referee link. It must match the token stored for the path `id`. |
 | job_title | string | Yes |  |
 | start_date | string | No |  |
 | end_date | string | No | null if the person is still working |
@@ -81,6 +84,7 @@ Example shape (placeholder values; apply the field constraints above):
 
 ```json
 {
+  "token": "referee-token",
   "job_title": "string",
   "start_date": "string",
   "end_date": "string",
@@ -107,7 +111,13 @@ Example shape (placeholder values; apply the field constraints above):
 
 ## Errors
 
-UNVERIFIED — controller, validation, authentication, and exception mappings require source tracing.
+| Status | When | Behavior |
+|---|---|---|
+| `400` | Token is missing, blank, malformed, or form validation fails | Reject without writing or notifying the branch. |
+| `400` | The reference ID does not exist or the token does not match it | Return the same generic not-found/invalid-token behavior; do not reveal whether the ID or token was the mismatch. |
+| `429` | Default API rate limit is exceeded | Reject the request without writing or notifying the branch. |
+
+The token is not expired, revoked, or consumed by this contract. Repeated use remains allowed while the submitted token exactly matches the stored token. The successful response does not expose the token.
 
 ## Flow
 
