@@ -1,11 +1,9 @@
 # Runtime route coverage
 
-Status: Phase 2 complete
-Last verified: 2026-10-07
+Status: Phase 2 complete; GAP-534 routes code-verified
+Last verified: 2026-10-12
 
 The runtime route inventory is the canonical page set. `PARTIAL` indicates an exact or parameter-normalized OpenAPI match; `CODE_ONLY` indicates that no matching OpenAPI operation was found.
-
-> GAP-534 planned endpoints are listed separately below and are **NOT YET DEPLOYED**. They must not be counted as runtime routes until backend implementation and route verification are complete.
 
 | Method | Runtime path | Domain | Endpoint page | OpenAPI source and operation | Flow spec | Status | Last verified |
 |---|---|---|---|---|---|---|---|
@@ -110,6 +108,8 @@ The runtime route inventory is the canonical page set. `PARTIAL` indicates an ex
 | GET / HEAD | `/api/candidate/referee/employment_history_references/{token}` | candidate | [Open](/docs/api/candidate/get-referee-employment-history-references-token) | `documents/Gap-API-Candidate.yaml`<br />`GET /referee/employment_history_references/{token}` | SPEC-006 — Employment history/referee | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/candidate/skills` | candidate | [Open](/docs/api/candidate/get-skills) | `documents/Gap-API-Candidate.yaml`<br />`GET /skills` | SPEC-036 — Tags/skills/support operations | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/candidate/status` | candidate | [Open](/docs/api/candidate/get-status) | UNVERIFIED | SPEC-001 — API request lifecycle | CODE_ONLY | 2026-10-07 |
+| GET | `/api/candidate/profile_deletion` | candidate | [Open](/docs/api/candidate/get-profile-deletion) | UNVERIFIED | GAP-534 — Bulk soft archive & one-time profile deletion | CODE_ONLY | 2026-10-12 |
+| POST | `/api/candidate/profile_deletion` | candidate | [Open](/docs/api/candidate/post-profile-deletion) | UNVERIFIED | GAP-534 — Bulk soft archive & one-time profile deletion | CODE_ONLY | 2026-10-12 |
 | GET / HEAD | `/api/candidate/stop_remind_me/{id}/{hash}` | candidate | [Open](/docs/api/candidate/get-stop-remind-me-id-hash) | UNVERIFIED | SPEC-022 — Screening reminder | CODE_ONLY | 2026-10-07 |
 | GET / HEAD | `/api/candidate/third_party_terms_and_conditions/passport_checking_service` | candidate | [Open](/docs/api/candidate/get-third-party-terms-and-conditions-passport-checking-service) | UNVERIFIED | SPEC-010 — GBG passport | CODE_ONLY | 2026-10-07 |
 | POST | `/api/candidate/tracking_records` | candidate | [Open](/docs/api/candidate/post-tracking-records) | `documents/Gap-API-Candidate.yaml`<br />`POST /tracking_records` | SPEC-029 — Tracking/address | PARTIAL | 2026-10-07 |
@@ -163,6 +163,7 @@ The runtime route inventory is the canonical page set. `PARTIAL` indicates an ex
 | POST | `/api/consultant/appointments/{id}/cancel` | consultant | [Open](/docs/api/consultant/post-appointments-id-cancel) | UNVERIFIED | SPEC-014 — Appointment | CODE_ONLY | 2026-10-07 |
 | GET / HEAD | `/api/consultant/branches` | consultant | [Open](/docs/api/consultant/get-branches) | `documents/Gap-API-Consultant.yaml`<br />`GET /branches` | SPEC-035 — Authentication/access/lock | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/consultant/candidates` | consultant | [Open](/docs/api/consultant/get-candidates) | `documents/Gap-API-Consultant.yaml`<br />`GET /candidates` | SPEC-038 — Candidate search/detail | PARTIAL | 2026-10-07 |
+| POST | `/api/consultant/candidates/bulk_archive` | consultant | [Open](/docs/api/consultant/post-candidates-bulk-archive) | UNVERIFIED | GAP-534 — Bulk soft archive & one-time profile deletion | CODE_ONLY | 2026-10-12 |
 | GET / HEAD | `/api/consultant/candidates/{id}` | consultant | [Open](/docs/api/consultant/get-candidates-id) | `documents/Gap-API-Consultant.yaml`<br />`GET /candidates/{id}` | SPEC-038 — Candidate search/detail | PARTIAL | 2026-10-07 |
 | PUT | `/api/consultant/candidates/{id}` | consultant | [Open](/docs/api/consultant/put-candidates-id) | `documents/Gap-API-Consultant.yaml`<br />`PUT /candidates/{id}` | SPEC-038 — Candidate search/detail | PARTIAL | 2026-10-07 |
 | POST | `/api/consultant/candidates/{id}/application_pack` | consultant | [Open](/docs/api/consultant/post-candidates-id-application-pack) | UNVERIFIED | SPEC-012 — Contract/application pack | CODE_ONLY | 2026-10-07 |
@@ -254,11 +255,3 @@ The runtime route inventory is the canonical page set. `PARTIAL` indicates an ex
 | GET / HEAD | `/api/user/me` | user | [Open](/docs/api/user/get-me) | `documents/Gap-API-User.yaml`<br />`GET /me` | SPEC-035 — Authentication/access/lock | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/user/me/branches` | user | [Open](/docs/api/user/get-me-branches) | `documents/Gap-API-User.yaml`<br />`GET /me/branches` | SPEC-035 — Authentication/access/lock | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/user/status` | user | [Open](/docs/api/user/get-status) | UNVERIFIED | SPEC-001 — API request lifecycle | CODE_ONLY | 2026-10-07 |
-
-## Planned contracts — not yet deployed
-
-| Method | Planned path | Domain | Endpoint page | OpenAPI source and operation | Flow spec | Status | Last verified |
-|---|---|---|---|---|---|---|---|
-| POST | `/api/consultant/candidates/bulk_archive` | consultant | [Open](/docs/api/consultant/post-candidates-bulk-archive) | UNVERIFIED — planned contract | GAP-534 — Bulk soft archive & one-time profile deletion | PLANNED — NOT YET DEPLOYED | 2026-10-12 |
-| GET | `/api/candidate/profile_deletion` | candidate | [Open](/docs/api/candidate/get-profile-deletion) | UNVERIFIED — planned contract | GAP-534 — Bulk soft archive & one-time profile deletion | PLANNED — NOT YET DEPLOYED | 2026-10-12 |
-| POST | `/api/candidate/profile_deletion` | candidate | [Open](/docs/api/candidate/post-profile-deletion) | UNVERIFIED — planned contract | GAP-534 — Bulk soft archive & one-time profile deletion | PLANNED — NOT YET DEPLOYED | 2026-10-12 |

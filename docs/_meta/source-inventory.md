@@ -1,7 +1,7 @@
 # CRS API docs source inventory
 
 Status: Phase 3 complete; Phase 4 publication pending
-Last verified: 2026-10-07
+Last verified: 2026-10-12
 
 ## Backend source
 
@@ -21,11 +21,11 @@ Last verified: 2026-10-07
 
 ## Coverage baseline
 
-- Runtime route entries: 245
-- Endpoint pages generated: 245
+- Runtime route entries: 248
+- Endpoint pages generated: 248
 - OpenAPI operations imported for comparison: 184
 - PARTIAL runtime routes with a semantic OpenAPI match: 157
-- CODE_ONLY runtime routes without an OpenAPI match: 88
+- CODE_ONLY runtime routes without an OpenAPI match: 91
 - Exact method/path matches: 152
 - Parameter-name drift matches: 5
 - OpenAPI-only operations: 27
@@ -34,15 +34,15 @@ Last verified: 2026-10-07
 
 - Business-flow pages: 5
 - Operations pages: 4
-- Endpoint pages linked back to flow/operations pages: 245
+- Endpoint pages linked back to flow/operations pages: 248
 - Source areas traced: route registration and rate limit, candidate/staff authentication, branch/job/lock middleware, configured API errors, permanent intake transaction/event boundary, scheduled commands, registered listeners/jobs, webhook handlers and external-integration logs.
 - No production source files were modified by the docs project.
 
 OpenAPI is used as a reference contract only. Endpoint request/response fields remain PARTIAL unless runtime source evidence supports them. Production deployment, queue-worker delivery, provider availability, storage delivery, secret configuration and GitHub Pages publication remain UNVERIFIED.
 
-## GAP-534 planned contract — not yet deployed
+## GAP-534 code-verified contract
 
-- Planned endpoints: `POST /api/consultant/candidates/bulk_archive`, `GET /api/candidate/profile_deletion`, and `POST /api/candidate/profile_deletion`.
+- Endpoints: `POST /api/consultant/candidates/bulk_archive`, `GET /api/candidate/profile_deletion`, and `POST /api/candidate/profile_deletion`.
 - Contract source: approved GAP-534 plan in `gap-web-backend/.specs/GAP-534/001-bulk-archive-auto-communicate.md` and Jira comments read through 2026-10-12.
-- Current runtime status: routes are not present in the backend route inventory; endpoint pages are intentionally marked `PLANNED — NOT YET DEPLOYED`.
+- Current runtime status: routes are implemented and verified in backend feature tests; endpoint pages are marked `CODE_ONLY` because no matching OpenAPI operation exists.
 - Scope: CRS database/storage and CRS email workflow only. MatchMaker/provider data, external tracking events, sent email, and backups are out of scope.

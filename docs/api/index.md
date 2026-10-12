@@ -24,9 +24,9 @@ The endpoint reference is grouped by runtime domain. Every runtime route entry h
 - OpenAPI-only operations and parameter-name drift are listed in `docs/_meta/openapi-drift.md`.
 - `VERIFIED` is intentionally unused in this phase.
 
-## Planned contracts — not yet deployed
+## GAP-534 code-verified contracts
 
-GAP-534 has approved contract pages for bulk archive and token-based profile deletion. They are not included in runtime route counts until the backend routes are implemented and verified:
+GAP-534 contract pages are included in runtime route counts as `CODE_ONLY` because the backend routes have no matching OpenAPI operations:
 
 - [POST /api/consultant/candidates/bulk_archive](/docs/api/consultant/post-candidates-bulk-archive)
 - [GET /api/candidate/profile_deletion](/docs/api/candidate/get-profile-deletion)

@@ -8,16 +8,16 @@ domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@confirmProfileDeletion"
 middleware: "api"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "PLANNED — NOT YET DEPLOYED"
-openapi_source: "UNVERIFIED — planned contract"
-openapi_path: "UNVERIFIED — planned contract"
-openapi_match: "NONE — runtime route not deployed"
+contract_status: "CODE_ONLY"
+openapi_source: "UNVERIFIED"
+openapi_path: "UNVERIFIED"
+openapi_match: "NONE — no matching OpenAPI operation"
 last_verified: "2026-10-12"
 ---
 
 # `POST /api/candidate/profile_deletion`
 
-> **GAP-534 approved planned contract — NOT YET DEPLOYED (2026-10-12).** This public token endpoint synchronously purges CRS candidate data after implementation; it is not currently available.
+> **GAP-534 code-verified contract (2026-10-12).** This public token endpoint synchronously purges CRS candidate data; production deployment remains an operational concern.
 
 ## Authentication
 
@@ -61,7 +61,7 @@ The endpoint does not dispatch a purge job and does not expose cleanup status fo
 | 429 | Confirmation throttle | Existing throttle response |
 | 500 | Storage or database purge failure | Existing server error contract; never return `deleted=true` |
 
-Numeric custom error codes remain pending backend implementation and must be added to the configured error catalog before this page is marked deployed.
+Numeric custom error codes: `profileDeletionTokenInvalid` is 1021/403, `profileDeletionTokenUnavailable` is 1022/410, and `profileDeletionStateConflict` is 1023/409 in `config/api.php`.
 
 ## Flow
 

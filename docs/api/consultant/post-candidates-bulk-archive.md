@@ -8,16 +8,16 @@ domain: "consultant"
 controller: "App\\Http\\Controllers\\Api\\Consultant\\CandidateController@bulkArchive"
 middleware: "api, auth:userApi, detectBranchForConsultant, autoLogout"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "PLANNED — NOT YET DEPLOYED"
-openapi_source: "UNVERIFIED — planned contract"
-openapi_path: "UNVERIFIED — planned contract"
-openapi_match: "NONE — runtime route not deployed"
+contract_status: "CODE_ONLY"
+openapi_source: "UNVERIFIED"
+openapi_path: "UNVERIFIED"
+openapi_match: "NONE — no matching OpenAPI operation"
 last_verified: "2026-10-12"
 ---
 
 # `POST /api/consultant/candidates/bulk_archive`
 
-> **GAP-534 approved planned contract — NOT YET DEPLOYED (2026-10-12).** This page documents the approved target contract. It is not evidence that the route exists in the current runtime.
+> **GAP-534 code-verified contract (2026-10-12).** The route is implemented in the backend; production deployment and worker delivery remain operational concerns.
 
 ## Authentication and middleware
 
@@ -85,7 +85,7 @@ Archive database mutations are atomic. Email dispatch occurs only after commit a
 | 429 | Rate limit | Existing throttle response |
 | 500 | Unexpected write failure; batch is rolled back | Existing server error contract |
 
-Numeric custom error codes remain pending backend implementation and must be added to the configured error catalog before this page is marked deployed.
+Numeric custom error code: `bulkArchiveStateConflict` is 1020/409 in `config/api.php`.
 
 ## Flow
 

@@ -31,13 +31,17 @@ The configured API error catalog is source-backed by config/api.php and rendered
 | permanentCvNotFound | 1016 | 404 | Required permanent-intake CV is missing |
 | permanentMatchMakerSyncFailed | 1017 | 502 | Local permanent intake committed but MatchMaker sync failed |
 | permanentIntakeValidation | 1019 | 422 | Permanent-intake business validation failed |
+| bulkArchiveStateConflict | 1020 | 409 | Bulk archive eligibility or concurrent-state conflict |
+| profileDeletionTokenInvalid | 1021 | 403 | Profile-deletion token owner mismatch |
+| profileDeletionTokenUnavailable | 1022 | 410 | Profile-deletion token expired, revoked, used, or stale |
+| profileDeletionStateConflict | 1023 | 409 | Concurrent profile-deletion claim or state conflict |
 | wrongJobId | 2001 | 400 | Candidate job header or identifier is invalid |
 
 The spelling of severError is retained because it is the configured error name.
 
-## Planned GAP-534 errors — not yet deployed
+## Remaining planned errors
 
-The following names are part of the approved GAP-534 contract but are not yet in the runtime error catalog. Backend implementation must add their configured numeric codes before the endpoints are marked deployed:
+The following unrelated planned error remains outside this implementation:
 
 | Error name | Planned HTTP status | Meaning |
 |---|---:|---|

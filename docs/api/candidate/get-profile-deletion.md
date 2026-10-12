@@ -8,16 +8,16 @@ domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@previewProfileDeletion"
 middleware: "api"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "PLANNED — NOT YET DEPLOYED"
-openapi_source: "UNVERIFIED — planned contract"
-openapi_path: "UNVERIFIED — planned contract"
-openapi_match: "NONE — runtime route not deployed"
+contract_status: "CODE_ONLY"
+openapi_source: "UNVERIFIED"
+openapi_path: "UNVERIFIED"
+openapi_match: "NONE — no matching OpenAPI operation"
 last_verified: "2026-10-12"
 ---
 
 # `GET /api/candidate/profile_deletion`
 
-> **GAP-534 approved planned contract — NOT YET DEPLOYED (2026-10-12).** This public token endpoint is planned and is not part of the current runtime route inventory.
+> **GAP-534 code-verified contract (2026-10-12).** This public token endpoint is implemented in the backend; production deployment remains an operational concern.
 
 ## Authentication
 

@@ -12,9 +12,9 @@ Candidate-facing authentication, profile, application, identity, file, referee, 
 
 | Metric | Count |
 |---|---:|
-| Runtime route entries | 69 |
+| Runtime route entries | 71 |
 | PARTIAL (OpenAPI match) | 48 |
-| CODE_ONLY (runtime only) | 21 |
+| CODE_ONLY (runtime only) | 23 |
 | Exact method/path matches | 46 |
 | Parameter-name drift matches | 2 |
 
@@ -88,17 +88,10 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | GET / HEAD | `/api/candidate/referee/employment_history_references/{token}` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`GET /referee/employment_history_references/{token}` | [Open](/docs/api/candidate/get-referee-employment-history-references-token) |
 | GET / HEAD | `/api/candidate/skills` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`GET /skills` | [Open](/docs/api/candidate/get-skills) |
 | GET / HEAD | `/api/candidate/status` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-status) |
+| GET | `/api/candidate/profile_deletion` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-profile-deletion) |
+| POST | `/api/candidate/profile_deletion` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/post-profile-deletion) |
 | GET / HEAD | `/api/candidate/stop_remind_me/{id}/{hash}` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-stop-remind-me-id-hash) |
 | GET / HEAD | `/api/candidate/third_party_terms_and_conditions/passport_checking_service` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-third-party-terms-and-conditions-passport-checking-service) |
 | POST | `/api/candidate/tracking_records` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`POST /tracking_records` | [Open](/docs/api/candidate/post-tracking-records) |
 | POST | `/api/candidate/tracking_records/welcome` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/post-tracking-records-welcome) |
 | GET / HEAD | `/api/candidate/translations/{category}` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`GET /translations/{category}` | [Open](/docs/api/candidate/get-translations-category) |
-
-## Planned endpoints — not yet deployed
-
-These pages document approved GAP-534 contracts and are intentionally excluded from the runtime coverage counts above until the backend routes are implemented and verified.
-
-| Method | Planned path | Status | Page |
-|---|---|---|---|
-| GET | `/api/candidate/profile_deletion` | PLANNED — NOT YET DEPLOYED | [Open](/docs/api/candidate/get-profile-deletion) |
-| POST | `/api/candidate/profile_deletion` | PLANNED — NOT YET DEPLOYED | [Open](/docs/api/candidate/post-profile-deletion) |

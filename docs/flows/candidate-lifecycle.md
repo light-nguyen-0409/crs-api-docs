@@ -7,7 +7,7 @@ sidebar_position: 3
 
 The lifecycle below is the current implementation map across candidate, consultant and compliance actors. It is not a universal state machine: stored progress, aggregate progress, candidate status, job status, RTW approval and MatchMaker status are separate state surfaces.
 
-> **GAP-534 approved planned flow — NOT YET DEPLOYED (2026-10-12).** The bulk archive and token-based profile deletion flow below is a target contract, not current runtime behavior.
+> **GAP-534 code-verified flow (2026-10-12).** The bulk archive and token-based profile deletion flow below is implemented in the backend; production deployment remains an operational concern.
 
 ## Lifecycle map
 
@@ -45,7 +45,7 @@ Stored candidate/candidate-job progresses are different from aggregate/filter pr
 
 Contract release requires personal, RTW and interview aggregate progress to be complete. Signing KID, work/terms and medical documents moves different contract states and can lock the profile. MatchMaker transfer performs multiple external calls before all local state is finalized; inspect api_result_logs and local post-state before retrying.
 
-## GAP-534 planned archive and CRS profile deletion
+## GAP-534 archive and CRS profile deletion
 
 1. A consultant submits `POST /api/consultant/candidates/bulk_archive` with candidate IDs and the required Yes/No email choice.
 2. CRS validates all candidates in the selected branch, atomically soft-archives eligible candidates, updates eligible application jobs, detaches the acting consultant's stars, and writes one archive receipt per candidate.
@@ -53,7 +53,7 @@ Contract release requires personal, RTW and interview aggregate progress to be c
 4. The candidate opens the email link and calls `GET /api/candidate/profile_deletion` with the token header. This only returns `can_delete` and does not mutate state.
 5. The candidate confirms with `POST /api/candidate/profile_deletion` and no body. CRS deletes owned storage synchronously, then deletes CRS candidate data in one database transaction and returns `deleted=true` only after commit.
 
-The database transaction is atomic, but storage deletion cannot be rolled back automatically if the transaction later fails. MatchMaker/provider records, sent email, external tracking events and backups are outside this CRS-only flow. These endpoints remain planned until backend routes and verification are complete.
+The database transaction is atomic, but storage deletion cannot be rolled back automatically if the transaction later fails. MatchMaker/provider records, sent email, external tracking events and backups are outside this CRS-only flow. Production deployment and worker delivery remain operational concerns.
 
 ## Database ownership notes
 

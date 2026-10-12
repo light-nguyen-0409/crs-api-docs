@@ -71,9 +71,9 @@ Evidence: candidate/user auth controllers return `access_token` and `token_type=
 
 Token format and expiry are source/configuration values; deployment-specific TTL values are not copied into this guide.
 
-## Planned GAP-534 profile-deletion token
+## GAP-534 profile-deletion token
 
-**NOT YET DEPLOYED (2026-10-12).** The planned `GET` and `POST /api/candidate/profile_deletion` endpoints use a separate `X-Profile-Deletion-Token` header. They do not require candidate JWT login, password, OTP, or edit-lock middleware. The raw one-time token is supplied by the archive email and must not be placed in a query string, path, body, local storage, logs, or third-party analytics.
+**CODE VERIFIED (2026-10-12).** The `GET` and `POST /api/candidate/profile_deletion` endpoints use a separate `X-Profile-Deletion-Token` header. They do not require candidate JWT login, password, OTP, or edit-lock middleware. The raw one-time token is supplied by the archive email and must not be placed in a query string, path, body, local storage, logs, or third-party analytics.
 
 ## Access checks
 

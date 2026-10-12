@@ -12,9 +12,9 @@ Consultant candidate operations, appointments, jobs, progress, issues, SMS, and 
 
 | Metric | Count |
 |---|---:|
-| Runtime route entries | 87 |
+| Runtime route entries | 88 |
 | PARTIAL (OpenAPI match) | 52 |
-| CODE_ONLY (runtime only) | 35 |
+| CODE_ONLY (runtime only) | 36 |
 | Exact method/path matches | 50 |
 | Parameter-name drift matches | 2 |
 
@@ -30,6 +30,7 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | POST | `/api/consultant/appointments/{id}/cancel` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-appointments-id-cancel) |
 | GET / HEAD | `/api/consultant/branches` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`GET /branches` | [Open](/docs/api/consultant/get-branches) |
 | GET / HEAD | `/api/consultant/candidates` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`GET /candidates` | [Open](/docs/api/consultant/get-candidates) |
+| POST | `/api/consultant/candidates/bulk_archive` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-candidates-bulk-archive) |
 | GET / HEAD | `/api/consultant/candidates/{id}` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`GET /candidates/{id}` | [Open](/docs/api/consultant/get-candidates-id) |
 | PUT | `/api/consultant/candidates/{id}` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`PUT /candidates/{id}` | [Open](/docs/api/consultant/put-candidates-id) |
 | POST | `/api/consultant/candidates/{id}/application_pack` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-candidates-id-application-pack) |
@@ -111,11 +112,3 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | POST | `/api/consultant/tags` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-tags) |
 | GET / HEAD | `/api/consultant/tags/{id}` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/get-tags-id) |
 | POST | `/api/consultant/tags/candidate` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-tags-candidate) |
-
-## Planned endpoints — not yet deployed
-
-This page documents the approved GAP-534 contract and intentionally excludes it from the runtime coverage counts above until the backend route is implemented and verified.
-
-| Method | Planned path | Status | Page |
-|---|---|---|---|
-| POST | `/api/consultant/candidates/bulk_archive` | PLANNED — NOT YET DEPLOYED | [Open](/docs/api/consultant/post-candidates-bulk-archive) |
