@@ -39,3 +39,10 @@ Last verified: 2026-10-07
 - No production source files were modified by the docs project.
 
 OpenAPI is used as a reference contract only. Endpoint request/response fields remain PARTIAL unless runtime source evidence supports them. Production deployment, queue-worker delivery, provider availability, storage delivery, secret configuration and GitHub Pages publication remain UNVERIFIED.
+
+## GAP-534 planned contract — not yet deployed
+
+- Planned endpoints: `POST /api/consultant/candidates/bulk_archive`, `GET /api/candidate/profile_deletion`, and `POST /api/candidate/profile_deletion`.
+- Contract source: approved GAP-534 plan in `gap-web-backend/.specs/GAP-534/001-bulk-archive-auto-communicate.md` and Jira comments read through 2026-10-12.
+- Current runtime status: routes are not present in the backend route inventory; endpoint pages are intentionally marked `PLANNED — NOT YET DEPLOYED`.
+- Scope: CRS database/storage and CRS email workflow only. MatchMaker/provider data, external tracking events, sent email, and backups are out of scope.

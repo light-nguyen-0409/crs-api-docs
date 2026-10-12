@@ -93,3 +93,12 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | POST | `/api/candidate/tracking_records` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`POST /tracking_records` | [Open](/docs/api/candidate/post-tracking-records) |
 | POST | `/api/candidate/tracking_records/welcome` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/post-tracking-records-welcome) |
 | GET / HEAD | `/api/candidate/translations/{category}` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`GET /translations/{category}` | [Open](/docs/api/candidate/get-translations-category) |
+
+## Planned endpoints — not yet deployed
+
+These pages document approved GAP-534 contracts and are intentionally excluded from the runtime coverage counts above until the backend routes are implemented and verified.
+
+| Method | Planned path | Status | Page |
+|---|---|---|---|
+| GET | `/api/candidate/profile_deletion` | PLANNED — NOT YET DEPLOYED | [Open](/docs/api/candidate/get-profile-deletion) |
+| POST | `/api/candidate/profile_deletion` | PLANNED — NOT YET DEPLOYED | [Open](/docs/api/candidate/post-profile-deletion) |

@@ -33,6 +33,12 @@ Important boundaries:
 
 Appointment and issue listeners recalculate progress after source mutation. A successful source mutation and a successful listener effect should be checked separately when debugging progress.
 
+## GAP-534 planned archive email boundary
+
+**NOT YET DEPLOYED (2026-10-12).** After a successful bulk-archive database commit, CRS plans to enqueue one encrypted `SendCandidateArchiveEmailJob` per newly archived candidate when `send_email=true`. The job uses the existing email content, the archived candidate owner, and a one-time seven-day deletion token. No email job is created for `send_email=false` or a no-op archive.
+
+The profile-deletion endpoint is intentionally synchronous and does not dispatch a purge job. It deletes owned storage before the database purge transaction; only the database portion is transactionally atomic. Queue acceptance is not proof of email delivery, and broker/enqueue failure after archive commit requires operational review rather than automatic token regeneration or bulk resend. This planned flow is CRS-only and does not delete MatchMaker/provider data.
+
 ## Related pages
 
 - [Permanent intake](/docs/flows/permanent-intake)

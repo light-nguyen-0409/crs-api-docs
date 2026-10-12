@@ -5,6 +5,8 @@ Last verified: 2026-10-07
 
 The runtime route inventory is the canonical page set. `PARTIAL` indicates an exact or parameter-normalized OpenAPI match; `CODE_ONLY` indicates that no matching OpenAPI operation was found.
 
+> GAP-534 planned endpoints are listed separately below and are **NOT YET DEPLOYED**. They must not be counted as runtime routes until backend implementation and route verification are complete.
+
 | Method | Runtime path | Domain | Endpoint page | OpenAPI source and operation | Flow spec | Status | Last verified |
 |---|---|---|---|---|---|---|---|
 | POST | `/api/addresses/detail` | general | [Open](/docs/api/general/post-addresses-detail) | UNVERIFIED | SPEC-029 — Tracking/address | CODE_ONLY | 2026-10-07 |
@@ -252,3 +254,11 @@ The runtime route inventory is the canonical page set. `PARTIAL` indicates an ex
 | GET / HEAD | `/api/user/me` | user | [Open](/docs/api/user/get-me) | `documents/Gap-API-User.yaml`<br />`GET /me` | SPEC-035 — Authentication/access/lock | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/user/me/branches` | user | [Open](/docs/api/user/get-me-branches) | `documents/Gap-API-User.yaml`<br />`GET /me/branches` | SPEC-035 — Authentication/access/lock | PARTIAL | 2026-10-07 |
 | GET / HEAD | `/api/user/status` | user | [Open](/docs/api/user/get-status) | UNVERIFIED | SPEC-001 — API request lifecycle | CODE_ONLY | 2026-10-07 |
+
+## Planned contracts — not yet deployed
+
+| Method | Planned path | Domain | Endpoint page | OpenAPI source and operation | Flow spec | Status | Last verified |
+|---|---|---|---|---|---|---|---|
+| POST | `/api/consultant/candidates/bulk_archive` | consultant | [Open](/docs/api/consultant/post-candidates-bulk-archive) | UNVERIFIED — planned contract | GAP-534 — Bulk soft archive & one-time profile deletion | PLANNED — NOT YET DEPLOYED | 2026-10-12 |
+| GET | `/api/candidate/profile_deletion` | candidate | [Open](/docs/api/candidate/get-profile-deletion) | UNVERIFIED — planned contract | GAP-534 — Bulk soft archive & one-time profile deletion | PLANNED — NOT YET DEPLOYED | 2026-10-12 |
+| POST | `/api/candidate/profile_deletion` | candidate | [Open](/docs/api/candidate/post-profile-deletion) | UNVERIFIED — planned contract | GAP-534 — Bulk soft archive & one-time profile deletion | PLANNED — NOT YET DEPLOYED | 2026-10-12 |

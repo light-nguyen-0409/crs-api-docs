@@ -111,3 +111,11 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | POST | `/api/consultant/tags` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-tags) |
 | GET / HEAD | `/api/consultant/tags/{id}` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/get-tags-id) |
 | POST | `/api/consultant/tags/candidate` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-tags-candidate) |
+
+## Planned endpoints — not yet deployed
+
+This page documents the approved GAP-534 contract and intentionally excludes it from the runtime coverage counts above until the backend route is implemented and verified.
+
+| Method | Planned path | Status | Page |
+|---|---|---|---|
+| POST | `/api/consultant/candidates/bulk_archive` | PLANNED — NOT YET DEPLOYED | [Open](/docs/api/consultant/post-candidates-bulk-archive) |

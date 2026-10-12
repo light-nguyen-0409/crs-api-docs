@@ -35,6 +35,18 @@ The configured API error catalog is source-backed by config/api.php and rendered
 
 The spelling of severError is retained because it is the configured error name.
 
+## Planned GAP-534 errors — not yet deployed
+
+The following names are part of the approved GAP-534 contract but are not yet in the runtime error catalog. Backend implementation must add their configured numeric codes before the endpoints are marked deployed:
+
+| Error name | Planned HTTP status | Meaning |
+|---|---:|---|
+| `bulkArchiveStateConflict` | 409 | Bulk archive eligibility, legacy archive, or concurrent-state conflict. |
+| `profileDeletionTokenInvalid` | 403 | Profile-deletion token owner mismatch. |
+| `profileDeletionTokenUnavailable` | 410 | Profile-deletion token expired, revoked, used, or stale. |
+| `profileDeletionStateConflict` | 409 | Concurrent profile-deletion claim or state conflict. |
+| `candidateArchived` | 409 | Candidate email belongs to a soft-archived candidate during signup. |
+
 ## Response families
 
 - Candidate/general status responses expose success, message, detail and optional errors; error items contain code and message.
