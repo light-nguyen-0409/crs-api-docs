@@ -37,6 +37,7 @@ When `all_branches=true` (Global Search), the estimate may include candidates ou
 - `job_status[]` contains only `matchmaker` (selecting `matchmaker` together with another job status keeps the existing branch-scoped behavior).
 - `mm_status[]` contains only `rrr`.
 - At least one `skill_ids[]` value is selected.
+- The authenticated user has `can_access_all_branches=true`; this permission is taken from the authenticated user and cannot be supplied by the query string.
 
 When any condition is not met, Global Search does not expand the SMS candidate scope. Existing candidate filters and recipient exclusions remain applied.
 
@@ -63,11 +64,13 @@ The matched OpenAPI operation does not declare query parameters. The local runti
 
 | Parameter | Type | Description |
 |---|---|---|
-| `all_branches` | boolean | Global Search flag; expands SMS candidate scope only under the GAP-727 conditions above. |
+| `all_branches` | boolean | Global Search flag; expands SMS candidate scope only under the GAP-727 conditions above, including the authenticated user's `can_access_all_branches` permission. |
 | `job_status[]` | array | Candidate job status filter. Cross-branch SMS requires only `matchmaker`. |
 | `mm_status[]` | array | MatchMaker status filter. Cross-branch SMS requires only `rrr`. |
 | `skill_ids[]` | array | Candidate skill filter. At least one skill is required for cross-branch SMS. |
 | Existing candidate filters | varies | Search text, location/client radius and other supported candidate filters remain applied. |
+
+`can_access_all_branches` is not a client-controlled query parameter. If the authenticated user does not have this permission, `all_branches=true` keeps the existing branch-scoped SMS behavior.
 
 The query behavior is a local GAP-727 contract and remains not deployed until backend verification is complete.
 
