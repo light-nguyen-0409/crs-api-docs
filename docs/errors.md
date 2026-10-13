@@ -31,7 +31,7 @@ The configured API error catalog is source-backed by config/api.php and rendered
 | permanentCvNotFound | 1016 | 404 | Required permanent-intake CV is missing |
 | permanentMatchMakerSyncFailed | 1017 | 502 | Local permanent intake committed but MatchMaker sync failed |
 | permanentIntakeValidation | 1019 | 422 | Permanent-intake business validation failed |
-| bulkArchiveStateConflict | 1020 | 409 | Bulk archive eligibility or concurrent-state conflict; pre-mutation responses may identify each rejected candidate in `invalidParams` |
+| bulkArchiveStateConflict | 1020 | 409 | Bulk archive eligibility or concurrent-state conflict; pre-mutation responses may identify each rejected candidate and reason in `invalidParams` |
 | profileDeletionTokenInvalid | 1021 | 403 | Profile-deletion token owner mismatch |
 | profileDeletionTokenUnavailable | 1022 | 410 | Profile-deletion token expired, revoked, used, or stale |
 | profileDeletionStateConflict | 1023 | 409 | Concurrent profile-deletion claim or state conflict |

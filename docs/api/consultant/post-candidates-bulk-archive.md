@@ -116,9 +116,9 @@ candidates in the same request are not partially archived.
 
 Supported eligibility reasons are `not_available_in_selected_branch`,
 `candidate_is_permanent`, `matchmaker_status_not_archivable`,
-`no_archivable_candidate_job`, and `candidate_has_blocked_job`. A matching
-already-archived cycle is idempotently valid and is returned in
-`already_archived_candidate_ids` instead.
+`no_archivable_candidate_job`, `candidate_has_blocked_job`, and
+`archived_state_conflict`. A matching already-archived cycle is idempotently
+valid and is returned in `already_archived_candidate_ids` instead.
 
 ## Flow
 
