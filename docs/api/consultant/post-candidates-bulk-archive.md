@@ -12,7 +12,7 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
-last_verified: "2026-10-12"
+last_verified: "2026-10-13"
 ---
 
 # `POST /api/consultant/candidates/bulk_archive`
@@ -86,6 +86,39 @@ Archive database mutations are atomic. Email dispatch occurs only after commit a
 | 500 | Unexpected write failure; batch is rolled back | Existing server error contract |
 
 Numeric custom error code: `bulkArchiveStateConflict` is 1020/409 in `config/api.php`.
+
+For a pre-mutation eligibility failure, `invalidParams` identifies every
+rejected candidate. A candidate may contain more than one reason; valid
+candidates in the same request are not partially archived.
+
+```json
+{
+  "success": false,
+  "errorCode": 1020,
+  "detail": "One or more candidates cannot be archived.",
+  "invalidParams": [
+    {
+      "candidate_id": 123,
+      "reasons": ["not_available_in_selected_branch"]
+    },
+    {
+      "candidate_id": 456,
+      "reasons": ["candidate_is_permanent"]
+    },
+    {
+      "candidate_id": 789,
+      "reasons": ["candidate_has_blocked_job"],
+      "blocked_statuses": ["approved"]
+    }
+  ]
+}
+```
+
+Supported eligibility reasons are `not_available_in_selected_branch`,
+`candidate_is_permanent`, `matchmaker_status_not_archivable`,
+`no_archivable_candidate_job`, and `candidate_has_blocked_job`. A matching
+already-archived cycle is idempotently valid and is returned in
+`already_archived_candidate_ids` instead.
 
 ## Flow
 
