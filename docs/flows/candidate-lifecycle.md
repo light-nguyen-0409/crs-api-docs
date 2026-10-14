@@ -7,7 +7,7 @@ sidebar_position: 3
 
 The lifecycle below is the current implementation map across candidate, consultant and compliance actors. It is not a universal state machine: stored progress, aggregate progress, candidate status, job status, RTW approval and MatchMaker status are separate state surfaces.
 
-> **GAP-534 code-verified flow (2026-10-12).** The bulk archive and token-based profile deletion flow below is implemented in the backend; production deployment remains an operational concern.
+> **GAP-534 code-verified flow (2026-10-14).** The bulk archive, consultant branch-membership guard and token-based profile deletion flow below are implemented in the backend; production deployment remains an operational concern.
 
 ## Lifecycle map
 
@@ -47,7 +47,7 @@ Contract release requires personal, RTW and interview aggregate progress to be c
 
 ## GAP-534 archive and CRS profile deletion
 
-1. The `detectBranchForConsultant` middleware validates the `Gap-Branch-ID` header against the authenticated consultant's `user_branches` membership. A consultant assigned to another branch receives `branchAccessNotAllowed` before the archive controller runs; no candidate, job, star, archive-log, or email-job mutation occurs. *(Planned security hardening — NOT DEPLOYED in the current backend; see GAP-534 Finding 1.)*
+1. The `detectBranchForConsultant` middleware validates the `Gap-Branch-ID` header against the authenticated consultant's `user_branches` membership. A consultant assigned to another branch receives `branchAccessNotAllowed` before the archive controller runs; no candidate, job, star, archive-log, or email-job mutation occurs.
 2. A consultant submits `POST /api/consultant/candidates/bulk_archive` with candidate IDs and the required Yes/No email choice.
 3. CRS validates all candidates in the selected branch, atomically soft-archives eligible candidates, updates eligible application jobs, detaches the acting consultant's stars, and writes one archive receipt per candidate.
 4. For Yes, CRS queues one email job per newly archived candidate using the existing email content and a one-time seven-day deletion token. For No, no token or email job is created.

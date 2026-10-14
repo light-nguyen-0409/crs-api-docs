@@ -12,14 +12,12 @@ contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
-last_verified: "2026-10-13"
+last_verified: "2026-10-14"
 ---
 
 # `POST /api/consultant/candidates/bulk_archive`
 
-> **GAP-534 code-verified contract (2026-10-12).** The route is implemented in the backend; production deployment and worker delivery remain operational concerns.
->
-> **Planned security hardening — NOT DEPLOYED (Finding 1, 2026-10-14).** A consultant must be assigned to the branch in `user_branches` with the `consultant` role before this request is admitted. The backend fix and verification are pending.
+> **GAP-534 code-verified contract (2026-10-14).** The route and consultant branch-membership guard are implemented in the backend; production deployment and worker delivery remain operational concerns.
 
 ## Authentication and middleware
 
