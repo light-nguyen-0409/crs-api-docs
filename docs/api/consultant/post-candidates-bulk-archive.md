@@ -18,6 +18,8 @@ last_verified: "2026-10-13"
 # `POST /api/consultant/candidates/bulk_archive`
 
 > **GAP-534 code-verified contract (2026-10-12).** The route is implemented in the backend; production deployment and worker delivery remain operational concerns.
+>
+> **Planned security hardening — NOT DEPLOYED (Finding 1, 2026-10-14).** A consultant must be assigned to the branch in `user_branches` with the `consultant` role before this request is admitted. The backend fix and verification are pending.
 
 ## Authentication and middleware
 
@@ -28,7 +30,9 @@ last_verified: "2026-10-13"
 | `detectBranchForConsultant` |
 | `autoLogout` |
 
-Use a staff bearer token and one `Gap-Branch-ID` header. The request is scoped to one consultant branch; `branch_id`, `all_branches`, and target status are not accepted in the body.
+Use a staff bearer token and one `Gap-Branch-ID` header. The request is scoped to one consultant branch; `branch_id`, `all_branches`, and target status are not accepted in the body. For consultants, the selected branch must be assigned to the authenticated user in `user_branches` with the `consultant` role. A consultant cannot use an arbitrary branch ID or `can_access_all_branches` to bypass this membership check.
+
+Branch authorization runs before the controller and archive service. If the authenticated consultant is not assigned to the selected branch, the request returns the existing `branchAccessNotAllowed` error and does not archive candidates, update candidate jobs, remove stars, create archive logs, or enqueue email jobs.
 
 ## Request
 
@@ -80,7 +84,7 @@ Archive database mutations are atomic. Email dispatch occurs only after commit a
 |---:|---|---|
 | 400 | Invalid body or validation failure | Existing validation/not-found convention |
 | 401 | Staff authentication failure | Existing auth contract |
-| 403 | Branch access or candidate ownership failure | Existing branch/role contract |
+| 403 | Consultant is not assigned to the `Gap-Branch-ID` branch, or candidate ownership failure | `branchAccessNotAllowed` for middleware rejection; existing branch/role contract otherwise |
 | 409 | Ineligible, legacy archive, or concurrent state change | `bulkArchiveStateConflict` |
 | 429 | Rate limit | Existing throttle response |
 | 500 | Unexpected write failure; batch is rolled back | Existing server error contract |
