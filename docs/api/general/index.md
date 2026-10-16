@@ -28,3 +28,11 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | POST | `/api/addresses/drill_down` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/general/post-addresses-drill-down) |
 | POST | `/api/addresses/search` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/general/post-addresses-search) |
 | POST | `/api/tracking_records` | PARTIAL | `documents/Gap-API-General.yaml`<br />`POST /tracking_records` | [Open](/docs/api/general/post-tracking-records) |
+
+## Planned endpoints
+
+These approved contracts are documented before implementation and deployment. They are not included in the runtime route counts above until verified in the backend.
+
+| Method | Planned path | Status | Page |
+|---|---|---|---|
+| GET | `/api/r/{token}` | NOT YET DEPLOYED | [Open](/docs/api/general/get-r-token) |
