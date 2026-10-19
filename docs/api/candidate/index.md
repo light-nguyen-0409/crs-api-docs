@@ -88,8 +88,8 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | GET / HEAD | `/api/candidate/referee/employment_history_references/{token}` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`GET /referee/employment_history_references/{token}` | [Open](/docs/api/candidate/get-referee-employment-history-references-token) |
 | GET / HEAD | `/api/candidate/skills` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`GET /skills` | [Open](/docs/api/candidate/get-skills) |
 | GET / HEAD | `/api/candidate/status` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-status) |
-| GET | `/api/candidate/profile_deletion` | PLANNED_NOT_DEPLOYED | UNVERIFIED | [Open](/docs/api/candidate/get-profile-deletion) |
-| POST | `/api/candidate/profile_deletion` | PLANNED_NOT_DEPLOYED | UNVERIFIED | [Open](/docs/api/candidate/post-profile-deletion) |
+| GET | `/api/candidate/profile_deletion` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-profile-deletion) |
+| POST | `/api/candidate/profile_deletion` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/post-profile-deletion) |
 | GET / HEAD | `/api/candidate/stop_remind_me/{id}/{hash}` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-stop-remind-me-id-hash) |
 | GET / HEAD | `/api/candidate/third_party_terms_and_conditions/passport_checking_service` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/candidate/get-third-party-terms-and-conditions-passport-checking-service) |
 | POST | `/api/candidate/tracking_records` | PARTIAL | `documents/Gap-API-Candidate.yaml`<br />`POST /tracking_records` | [Open](/docs/api/candidate/post-tracking-records) |

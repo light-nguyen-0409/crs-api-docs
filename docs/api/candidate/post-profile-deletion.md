@@ -2,13 +2,13 @@
 title: "POST /api/candidate/profile_deletion"
 sidebar_label: "POST /api/candidate/profile_deletion"
 method: "POST"
-runtime_method_declaration: "PLANNED"
+runtime_method_declaration: "POST"
 path: "/api/candidate/profile_deletion"
 domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@confirmProfileDeletion"
 middleware: "api"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "PLANNED_NOT_DEPLOYED"
+contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `POST /api/candidate/profile_deletion`
 
-> **GAP-534 approved contract — NOT YET DEPLOYED (2026-10-19).** This revision supersedes the previous header-based random-token contract. Do not treat the revised request shape as available until backend implementation and deployment are verified.
+> **GAP-534 code-verified contract (2026-10-19).** This public ID/hash endpoint synchronously purges CRS candidate data; production deployment remains an operational concern.
 
 ## Authentication
 

@@ -73,7 +73,7 @@ Token format and expiry are source/configuration values; deployment-specific TTL
 
 ## GAP-534 profile-deletion token
 
-**APPROVED CONTRACT — NOT YET DEPLOYED (2026-10-19).** The `GET` and `POST /api/candidate/profile_deletion` endpoints do not require candidate JWT login, password, OTP, or edit-lock middleware. The archive email supplies the candidate `id` and deterministic token `StringUtility::uniqueHash(id)`. GET sends them as query parameters; POST sends them as JSON fields. The token is not stored in a database and has no expiry or one-time consumption state.
+**CODE VERIFIED (2026-10-19).** The `GET` and `POST /api/candidate/profile_deletion` endpoints do not require candidate JWT login, password, OTP, or edit-lock middleware. The archive email supplies the candidate `id` and deterministic token `StringUtility::uniqueHash(id)`. GET sends them as query parameters; POST sends them as JSON fields. The token is not stored in a database and has no expiry or one-time consumption state.
 
 ## Access checks
 

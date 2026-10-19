@@ -7,7 +7,7 @@ sidebar_position: 3
 
 The lifecycle below is the current implementation map across candidate, consultant and compliance actors. It is not a universal state machine: stored progress, aggregate progress, candidate status, job status, RTW approval and MatchMaker status are separate state surfaces.
 
-> **GAP-534 approved flow — NOT YET DEPLOYED (2026-10-19).** The revised bulk archive and profile deletion contract below supersedes the previous archive-log/random-token flow.
+> **GAP-534 code-verified flow (2026-10-19).** The revised bulk archive and profile deletion contract below is implemented in the backend; production deployment remains an operational concern.
 
 ## Lifecycle map
 

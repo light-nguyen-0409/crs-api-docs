@@ -2,13 +2,13 @@
 title: "POST /api/consultant/candidates/bulk_archive"
 sidebar_label: "POST /api/consultant/candidates/bulk_archive"
 method: "POST"
-runtime_method_declaration: "PLANNED"
+runtime_method_declaration: "POST"
 path: "/api/consultant/candidates/bulk_archive"
 domain: "consultant"
 controller: "App\\Http\\Controllers\\Api\\Consultant\\CandidateController@bulkArchive"
 middleware: "api, auth:userApi, detectBranchForConsultant, autoLogout"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "PLANNED_NOT_DEPLOYED"
+contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `POST /api/consultant/candidates/bulk_archive`
 
-> **GAP-534 approved contract — NOT YET DEPLOYED (2026-10-19).** The revised archive/delete integration is not available until backend implementation and deployment are verified.
+> **GAP-534 code-verified contract (2026-10-19).** The revised archive/delete integration is implemented in the backend; production deployment and worker delivery remain operational concerns.
 
 ## Authentication and middleware
 

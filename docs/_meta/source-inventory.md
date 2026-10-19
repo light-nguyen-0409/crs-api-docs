@@ -40,9 +40,9 @@ Last verified: 2026-10-19
 
 OpenAPI is used as a reference contract only. Endpoint request/response fields remain PARTIAL unless runtime source evidence supports them. Production deployment, queue-worker delivery, provider availability, storage delivery, secret configuration and GitHub Pages publication remain UNVERIFIED.
 
-## GAP-534 approved contract — not yet deployed
+## GAP-534 code-verified contract
 
-- Planned endpoints: `POST /api/consultant/candidates/bulk_archive`, `GET /api/candidate/profile_deletion`, and `POST /api/candidate/profile_deletion`.
+- Endpoints: `POST /api/consultant/candidates/bulk_archive`, `GET /api/candidate/profile_deletion`, and `POST /api/candidate/profile_deletion`.
 - Contract source: approved GAP-534 plan in `gap-web-backend/.specs/GAP-534/001-bulk-archive-auto-communicate.md` and the latest approved task decisions through 2026-10-19.
-- Current contract status: the revised request/response contract is planned and not yet deployed; endpoint pages are marked `PLANNED_NOT_DEPLOYED` because no matching OpenAPI operation exists.
+- Current runtime status: the revised request/response contract is implemented and verified in the backend working tree; endpoint pages are marked `CODE_ONLY` because no matching OpenAPI operation exists. Production deployment remains unverified.
 - Scope: CRS database/storage and CRS email workflow only. MatchMaker/provider data, external tracking events, sent email, and backups are out of scope.
