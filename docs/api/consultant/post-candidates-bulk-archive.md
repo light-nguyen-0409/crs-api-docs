@@ -7,8 +7,8 @@ path: "/api/consultant/candidates/bulk_archive"
 domain: "consultant"
 controller: "App\\Http\\Controllers\\Api\\Consultant\\CandidateController@bulkArchive"
 middleware: "api, auth:userApi, detectBranchForConsultant, autoLogout"
-flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "CODE_ONLY"
+flow_spec: "GAP-534 — Bulk archive & profile deletion"
+contract_status: "PLANNED_NOT_DEPLOYED"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `POST /api/consultant/candidates/bulk_archive`
 
-> **GAP-534 code-verified contract (2026-10-19).** The revised archive/delete integration is implemented in the backend; production deployment and worker delivery remain operational concerns.
+> **GAP-534 planned contract (2026-10-19).** This revision is approved for implementation but is not deployed. Backend implementation and verification are pending.
 
 ## Authentication and middleware
 
@@ -55,7 +55,7 @@ Content-Type: application/json
 | `candidate_ids` | Yes | integer[] | 1–100 distinct positive IDs; all candidates are validated as one batch. |
 | `send_email` | Yes | boolean | `true` queues one archive email per newly archived candidate; `false` archives without issuing a deletion token or email job. |
 
-The backend validates candidate/job ownership and eligibility. Candidates must have a qualifying `SCREENING_CALL` or `INTERVIEW` application in the selected branch. The bulk job update reuses `CandidateRepositoryInterface::archiveCandidateJobsByBranch()` and only updates matching `candidate_jobs.status` and `candidate_jobs.updated_at` rows in that branch. It does not update MatchMaker/approved jobs or jobs in another branch. Permanent, approved, MatchMaker and cross-branch active-work states are rejected before mutation.
+The backend validates candidate/job ownership and eligibility. Candidates must have a qualifying application in the selected branch. Bulk archive follows the existing single-candidate archive behavior: it updates eligible `candidate_jobs.status` rows to `ARCHIVED` in the selected branch, preserves `MATCHMAKER` jobs, and does not soft-delete or hide the Candidate account. It also resets eligible contract document status/progress and removes the existing candidate-owned contract/medical files. Permanent, approved, MatchMaker and cross-branch active-work states are rejected before mutation.
 
 ## Response
 
@@ -70,7 +70,7 @@ The response contains exactly these two top-level fields:
 }
 ```
 
-`archived_candidate_ids` are candidates newly soft-archived in this request. `already_archived_candidate_ids` are matching no-op candidates determined from candidate/job state; no archive-log table is written. The endpoint does not return token, email, count, batch, or queue-delivery fields.
+`archived_candidate_ids` are candidates whose eligible jobs were newly archived in this request. `already_archived_candidate_ids` are matching no-op candidates determined from candidate/job state; no archive-log table is written. The Candidate row remains active. The endpoint does not return token, email, count, batch, or queue-delivery fields.
 
 Archive database mutations are atomic. Email dispatch occurs only after commit and is not proof that delivery completed. For `send_email=true`, the archive email link contains the candidate `id` and `StringUtility::uniqueHash(id)`. Retrying a no-op does not create an archive-log record or issue a new token.
 
@@ -122,4 +122,4 @@ valid and is returned in `already_archived_candidate_ids` instead.
 
 ## Flow
 
-Flow baseline: [GAP-534 — bulk soft archive and one-time profile deletion](/docs/flows/candidate-lifecycle).
+Flow baseline: [GAP-534 — bulk archive and profile deletion](/docs/flows/candidate-lifecycle).

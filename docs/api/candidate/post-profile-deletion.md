@@ -7,8 +7,8 @@ path: "/api/candidate/profile_deletion"
 domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@confirmProfileDeletion"
 middleware: "api"
-flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "CODE_ONLY"
+flow_spec: "GAP-534 — Bulk archive & profile deletion"
+contract_status: "PLANNED_NOT_DEPLOYED"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `POST /api/candidate/profile_deletion`
 
-> **GAP-534 code-verified contract (2026-10-19).** This public ID/hash endpoint synchronously purges CRS candidate data; production deployment remains an operational concern.
+> **GAP-534 planned contract (2026-10-19).** This revision is approved for implementation but is not deployed. Backend implementation and verification are pending.
 
 ## Authentication
 
@@ -55,7 +55,7 @@ The response contains exactly one field and is returned only after synchronous C
 
 The database purge is atomic within the transaction. Storage deletion runs after a successful database commit; an orphaned storage file is the recoverable failure mode if storage cleanup fails. MatchMaker/provider data, sent email, and backups are outside this CRS scope.
 
-The endpoint does not dispatch a purge job and does not expose cleanup status for polling. Replaying the link after the candidate is force-deleted fails because the candidate no longer exists.
+The endpoint does not dispatch a purge job and does not expose cleanup status for polling. Archive leaves the Candidate account active; this endpoint is the operation that force-deletes it. Replaying the link after the candidate is force-deleted fails because the candidate no longer exists.
 
 ## Errors
 
@@ -72,4 +72,4 @@ Numeric custom error codes: `profileDeletionTokenInvalid` is 1021/403, `profileD
 
 ## Flow
 
-Flow baseline: [GAP-534 — bulk soft archive and one-time profile deletion](/docs/flows/candidate-lifecycle).
+Flow baseline: [GAP-534 — bulk archive and profile deletion](/docs/flows/candidate-lifecycle).

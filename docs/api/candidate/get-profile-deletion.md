@@ -7,8 +7,8 @@ path: "/api/candidate/profile_deletion"
 domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@previewProfileDeletion"
 middleware: "api"
-flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "CODE_ONLY"
+flow_spec: "GAP-534 — Bulk archive & profile deletion"
+contract_status: "PLANNED_NOT_DEPLOYED"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `GET /api/candidate/profile_deletion`
 
-> **GAP-534 code-verified contract (2026-10-19).** This public ID/hash endpoint is implemented in the backend; production deployment remains an operational concern.
+> **GAP-534 planned contract (2026-10-19).** This revision is approved for implementation but is not deployed. Backend implementation and verification are pending.
 
 ## Authentication
 
@@ -50,7 +50,7 @@ The response contains exactly one field:
 }
 ```
 
-`can_delete` is `true` only when the ID/token pair is valid and the candidate is still soft-deleted and eligible for deletion. An unknown candidate, invalid hash, restored candidate, purged candidate, or already-deleted candidate returns the same HTTP 200 shape with `false`:
+`can_delete` is `true` only when the ID/token pair is valid and the candidate has an eligible archived job. Archive does not soft-delete or hide the Candidate account. An unknown candidate, invalid hash, non-archived candidate, purged candidate, or already-deleted candidate returns the same HTTP 200 shape with `false`:
 
 ```json
 {
@@ -72,4 +72,4 @@ Token invalidity is represented as `can_delete=false` after format validation; i
 
 ## Flow
 
-Flow baseline: [GAP-534 — bulk soft archive and one-time profile deletion](/docs/flows/candidate-lifecycle).
+Flow baseline: [GAP-534 — bulk archive and profile deletion](/docs/flows/candidate-lifecycle).

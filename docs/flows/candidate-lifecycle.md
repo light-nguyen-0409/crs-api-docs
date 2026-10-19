@@ -7,7 +7,7 @@ sidebar_position: 3
 
 The lifecycle below is the current implementation map across candidate, consultant and compliance actors. It is not a universal state machine: stored progress, aggregate progress, candidate status, job status, RTW approval and MatchMaker status are separate state surfaces.
 
-> **GAP-534 code-verified flow (2026-10-19).** The revised bulk archive and profile deletion contract below is implemented in the backend; production deployment remains an operational concern.
+> **GAP-534 planned flow (2026-10-19).** The revised bulk archive and profile deletion contract below is approved for implementation but is not deployed.
 
 ## Lifecycle map
 
@@ -48,7 +48,7 @@ Contract release requires personal, RTW and interview aggregate progress to be c
 ## GAP-534 archive and CRS profile deletion
 
 1. A consultant submits `POST /api/consultant/candidates/bulk_archive` with candidate IDs and the required Yes/No email choice.
-2. CRS validates all candidates in the selected branch, atomically soft-archives eligible candidates, calls `archiveCandidateJobsByBranch()` to update only eligible application jobs, and detaches the acting consultant's stars. No archive-log table is written.
+2. CRS validates all candidates in the selected branch, atomically updates eligible application jobs to `ARCHIVED` using the existing archive behavior, resets eligible contract document status/progress, removes the existing contract/medical files, and detaches the acting consultant's stars. The Candidate row remains active and no archive-log table is written.
 3. For Yes, CRS queues one email job per newly archived candidate using the existing email content. The link contains the candidate ID and `StringUtility::uniqueHash(id)`. For No, no email job is created.
 4. The candidate opens the email link and calls `GET /api/candidate/profile_deletion?id={id}&token={hash}`. This only returns `can_delete` and does not mutate state.
 5. The candidate confirms with `POST /api/candidate/profile_deletion` and a JSON body containing `id` and `token`. After hash and eligibility checks, CRS reuses `CandidateService::deleteCandidate()`, performs CRS database cleanup atomically, deletes storage after commit, and returns `deleted=true` only after the database commit.
