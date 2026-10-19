@@ -8,7 +8,7 @@ domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@confirmProfileDeletion"
 middleware: "api"
 flow_spec: "GAP-534 — Bulk archive & profile deletion"
-contract_status: "PLANNED_NOT_DEPLOYED"
+contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `POST /api/candidate/profile_deletion`
 
-> **GAP-534 planned contract (2026-10-19).** This revision is approved for implementation but is not deployed. Backend implementation and verification are pending.
+> **GAP-534 code-verified contract (2026-10-19).** This public ID/hash endpoint synchronously purges CRS candidate data and is verified in the backend; production deployment remains an operational concern.
 
 ## Authentication
 

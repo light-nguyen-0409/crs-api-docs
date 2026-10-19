@@ -8,7 +8,7 @@ domain: "consultant"
 controller: "App\\Http\\Controllers\\Api\\Consultant\\CandidateController@bulkArchive"
 middleware: "api, auth:userApi, detectBranchForConsultant, autoLogout"
 flow_spec: "GAP-534 — Bulk archive & profile deletion"
-contract_status: "PLANNED_NOT_DEPLOYED"
+contract_status: "CODE_ONLY"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
@@ -17,7 +17,7 @@ last_verified: "2026-10-19"
 
 # `POST /api/consultant/candidates/bulk_archive`
 
-> **GAP-534 planned contract (2026-10-19).** This revision is approved for implementation but is not deployed. Backend implementation and verification are pending.
+> **GAP-534 code-verified contract (2026-10-19).** The revised job-status archive and profile deletion integration is implemented and verified in the backend; production deployment and worker delivery remain operational concerns.
 
 ## Authentication and middleware
 
