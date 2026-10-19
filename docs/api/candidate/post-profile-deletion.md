@@ -2,37 +2,44 @@
 title: "POST /api/candidate/profile_deletion"
 sidebar_label: "POST /api/candidate/profile_deletion"
 method: "POST"
-runtime_method_declaration: "POST"
+runtime_method_declaration: "PLANNED"
 path: "/api/candidate/profile_deletion"
 domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@confirmProfileDeletion"
 middleware: "api"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "CODE_ONLY"
+contract_status: "PLANNED_NOT_DEPLOYED"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
-last_verified: "2026-10-12"
+last_verified: "2026-10-19"
 ---
 
 # `POST /api/candidate/profile_deletion`
 
-> **GAP-534 code-verified contract (2026-10-12).** This public token endpoint synchronously purges CRS candidate data; production deployment remains an operational concern.
+> **GAP-534 approved contract — NOT YET DEPLOYED (2026-10-19).** This revision supersedes the previous header-based random-token contract. Do not treat the revised request shape as available until backend implementation and deployment are verified.
 
 ## Authentication
 
-No candidate login, JWT, password, OTP, or edit-lock middleware is required. Send the archive-email token in this header:
+No candidate login, JWT, password, OTP, or edit-lock middleware is required. Send the candidate ID and deterministic archive-email token in the request body:
 
 ```http
 Accept: application/json
-X-Profile-Deletion-Token: <raw-token>
+Content-Type: application/json
 ```
 
-The token is accepted only in the header. It is not accepted in the body, query string, or path.
+The token is `StringUtility::uniqueHash(id)`. It is not a random token, is not stored in a database, and has no expiry or one-time consumption state.
 
 ## Request
 
-There are no path/query parameters and no request body. The valid token itself is the confirmation; the client does not send a candidate ID or a separate `confirmed` field.
+```json
+{
+  "id": 101,
+  "token": "<sha256-app-key-plus-id>"
+}
+```
+
+`id` is the candidate ID from the archive email. `token` must equal `StringUtility::uniqueHash(id)`. The client does not send a separate `confirmed` field.
 
 ## Response
 
@@ -46,18 +53,18 @@ The response contains exactly one field and is returned only after synchronous C
 }
 ```
 
-The database purge is atomic within the transaction. Storage deletion is performed before the transaction and is idempotent where possible, but cannot be rolled back automatically if the database transaction later fails. MatchMaker/provider data, sent email, and backups are outside this CRS scope.
+The database purge is atomic within the transaction. Storage deletion runs after a successful database commit; an orphaned storage file is the recoverable failure mode if storage cleanup fails. MatchMaker/provider data, sent email, and backups are outside this CRS scope.
 
-The endpoint does not dispatch a purge job and does not expose cleanup status for polling. Replaying a committed token returns HTTP 410.
+The endpoint does not dispatch a purge job and does not expose cleanup status for polling. Replaying the link after the candidate is force-deleted fails because the candidate no longer exists.
 
 ## Errors
 
 | HTTP | Planned condition | Internal key / behavior |
 |---:|---|---|
-| 400 | Missing/malformed token or unexpected body | Existing validation contract |
-| 403 | Token owner mismatch | `profileDeletionTokenInvalid` |
-| 409 | Concurrent claim or state conflict | `profileDeletionStateConflict` |
-| 410 | Expired, revoked, used, or stale token | `profileDeletionTokenUnavailable` |
+| 400 | Missing/malformed `id` or `token`, or unexpected body | Existing validation contract |
+| 403 | `token` does not equal `StringUtility::uniqueHash(id)` | `profileDeletionTokenInvalid` |
+| 409 | Candidate state conflict during deletion | `profileDeletionStateConflict` |
+| 404 | Candidate does not exist or is not eligible for this flow | Existing candidate-not-found/eligibility contract |
 | 429 | Confirmation throttle | Existing throttle response |
 | 500 | Storage or database purge failure | Existing server error contract; never return `deleted=true` |
 

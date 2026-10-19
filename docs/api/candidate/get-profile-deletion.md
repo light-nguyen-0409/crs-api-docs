@@ -2,37 +2,41 @@
 title: "GET /api/candidate/profile_deletion"
 sidebar_label: "GET /api/candidate/profile_deletion"
 method: "GET"
-runtime_method_declaration: "GET"
+runtime_method_declaration: "PLANNED"
 path: "/api/candidate/profile_deletion"
 domain: "candidate"
 controller: "App\\Http\\Controllers\\Api\\Candidate\\MeController@previewProfileDeletion"
 middleware: "api"
 flow_spec: "GAP-534 — Bulk soft archive & one-time profile deletion"
-contract_status: "CODE_ONLY"
+contract_status: "PLANNED_NOT_DEPLOYED"
 openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE — no matching OpenAPI operation"
-last_verified: "2026-10-12"
+last_verified: "2026-10-19"
 ---
 
 # `GET /api/candidate/profile_deletion`
 
-> **GAP-534 code-verified contract (2026-10-12).** This public token endpoint is implemented in the backend; production deployment remains an operational concern.
+> **GAP-534 approved contract — NOT YET DEPLOYED (2026-10-19).** This revision supersedes the previous header-based random-token contract. Do not treat the revised request shape as available until backend implementation and deployment are verified.
 
 ## Authentication
 
-This endpoint does not require candidate login, JWT, password, OTP, or edit-lock middleware. It requires the one-time token from the archive email:
+This endpoint does not require candidate login, JWT, password, OTP, or edit-lock middleware. It uses the candidate ID and deterministic token from the archive email:
 
 ```http
 Accept: application/json
-X-Profile-Deletion-Token: <raw-token>
 ```
 
-The raw token is a 43-character Base64URL value. It must be sent in the header only; do not send it in the body, query string, or path.
+The token is `StringUtility::uniqueHash(id)`. It is not a random token, is not stored in a database, and has no expiry or one-time consumption state.
 
 ## Request
 
-This endpoint has no path/query parameters and no request body.
+### Query parameters
+
+| Field | Required | Type | Notes |
+|---|---|---|---|
+| `id` | Yes | integer | Candidate ID from the archive email. |
+| `token` | Yes | string | Must equal `StringUtility::uniqueHash(id)`. |
 
 ## Response
 
@@ -46,7 +50,7 @@ The response contains exactly one field:
 }
 ```
 
-`can_delete` is `true` only when the token is valid, unexpired, unused, bound to the latest archive cycle, and the candidate is still soft-deleted. Unknown, expired, used, stale, restored, purged, or already-deleted tokens return the same HTTP 200 shape with `false`:
+`can_delete` is `true` only when the ID/token pair is valid and the candidate is still soft-deleted and eligible for deletion. An unknown candidate, invalid hash, restored candidate, purged candidate, or already-deleted candidate returns the same HTTP 200 shape with `false`:
 
 ```json
 {
@@ -60,7 +64,7 @@ GET/HEAD never consumes the token, mutates state, dispatches a job, or returns c
 
 | HTTP | Planned condition | Internal key |
 |---:|---|---|
-| 400 | Missing or malformed token header | Existing validation contract |
+| 400 | Missing or malformed `id`/`token` query parameters | Existing validation contract |
 | 429 | Preview throttle | Existing throttle response |
 | 500 | Unexpected read/system failure | Existing server error contract |
 

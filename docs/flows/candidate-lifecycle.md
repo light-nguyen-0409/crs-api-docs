@@ -7,7 +7,7 @@ sidebar_position: 3
 
 The lifecycle below is the current implementation map across candidate, consultant and compliance actors. It is not a universal state machine: stored progress, aggregate progress, candidate status, job status, RTW approval and MatchMaker status are separate state surfaces.
 
-> **GAP-534 code-verified flow (2026-10-12).** The bulk archive and token-based profile deletion flow below is implemented in the backend; production deployment remains an operational concern.
+> **GAP-534 approved flow — NOT YET DEPLOYED (2026-10-19).** The revised bulk archive and profile deletion contract below supersedes the previous archive-log/random-token flow.
 
 ## Lifecycle map
 
@@ -48,12 +48,12 @@ Contract release requires personal, RTW and interview aggregate progress to be c
 ## GAP-534 archive and CRS profile deletion
 
 1. A consultant submits `POST /api/consultant/candidates/bulk_archive` with candidate IDs and the required Yes/No email choice.
-2. CRS validates all candidates in the selected branch, atomically soft-archives eligible candidates, updates eligible application jobs, detaches the acting consultant's stars, and writes one archive receipt per candidate.
-3. For Yes, CRS queues one email job per newly archived candidate using the existing email content and a one-time seven-day deletion token. For No, no token or email job is created.
-4. The candidate opens the email link and calls `GET /api/candidate/profile_deletion` with the token header. This only returns `can_delete` and does not mutate state.
-5. The candidate confirms with `POST /api/candidate/profile_deletion` and no body. CRS deletes owned storage synchronously, then deletes CRS candidate data in one database transaction and returns `deleted=true` only after commit.
+2. CRS validates all candidates in the selected branch, atomically soft-archives eligible candidates, calls `archiveCandidateJobsByBranch()` to update only eligible application jobs, and detaches the acting consultant's stars. No archive-log table is written.
+3. For Yes, CRS queues one email job per newly archived candidate using the existing email content. The link contains the candidate ID and `StringUtility::uniqueHash(id)`. For No, no email job is created.
+4. The candidate opens the email link and calls `GET /api/candidate/profile_deletion?id={id}&token={hash}`. This only returns `can_delete` and does not mutate state.
+5. The candidate confirms with `POST /api/candidate/profile_deletion` and a JSON body containing `id` and `token`. After hash and eligibility checks, CRS reuses `CandidateService::deleteCandidate()`, performs CRS database cleanup atomically, deletes storage after commit, and returns `deleted=true` only after the database commit.
 
-The database transaction is atomic, but storage deletion cannot be rolled back automatically if the transaction later fails. MatchMaker/provider records, sent email, external tracking events and backups are outside this CRS-only flow. Production deployment and worker delivery remain operational concerns.
+The database transaction is atomic and storage deletion runs only after commit; a leftover storage file is the recoverable failure mode if storage cleanup fails. MatchMaker/provider records, sent email, external tracking events and backups are outside this CRS-only flow. Production deployment and worker delivery remain operational concerns.
 
 ## Database ownership notes
 

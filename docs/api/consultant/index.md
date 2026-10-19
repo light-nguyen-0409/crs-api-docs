@@ -30,7 +30,7 @@ Runtime route entries are the canonical page set. PARTIAL means an OpenAPI opera
 | POST | `/api/consultant/appointments/{id}/cancel` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-appointments-id-cancel) |
 | GET / HEAD | `/api/consultant/branches` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`GET /branches` | [Open](/docs/api/consultant/get-branches) |
 | GET / HEAD | `/api/consultant/candidates` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`GET /candidates` | [Open](/docs/api/consultant/get-candidates) |
-| POST | `/api/consultant/candidates/bulk_archive` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-candidates-bulk-archive) |
+| POST | `/api/consultant/candidates/bulk_archive` | PLANNED_NOT_DEPLOYED | UNVERIFIED | [Open](/docs/api/consultant/post-candidates-bulk-archive) |
 | GET / HEAD | `/api/consultant/candidates/{id}` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`GET /candidates/{id}` | [Open](/docs/api/consultant/get-candidates-id) |
 | PUT | `/api/consultant/candidates/{id}` | PARTIAL | `documents/Gap-API-Consultant.yaml`<br />`PUT /candidates/{id}` | [Open](/docs/api/consultant/put-candidates-id) |
 | POST | `/api/consultant/candidates/{id}/application_pack` | CODE_ONLY | UNVERIFIED | [Open](/docs/api/consultant/post-candidates-id-application-pack) |
