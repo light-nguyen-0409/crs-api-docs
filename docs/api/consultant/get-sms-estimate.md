@@ -14,6 +14,7 @@ openapi_path: "/api/consultant/sms/estimate"
 openapi_match: "EXACT_PATH"
 last_verified: "2026-10-07"
 gap_727_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
+gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 ---
 
 # `GET /api/consultant/sms/estimate`
@@ -40,6 +41,12 @@ When `all_branches=true` (Global Search), the estimate may include candidates ou
 - The authenticated user has `can_access_all_branches=true`; this permission is taken from the authenticated user and cannot be supplied by the query string.
 
 When any condition is not met, Global Search does not expand the SMS candidate scope. Existing candidate filters and recipient exclusions remain applied.
+
+## GAP-745 — Local implementation contract (not deployed)
+
+The behavior below is the approved GAP-745 change to support email communication alongside Bulk SMS. It is not deployed until the backend change and verification are complete.
+
+- The response includes `email_placeholders`, returning a list of available placeholders (e.g. `["{candidate_first_name}"]`) that frontend editors (such as `RichTextEditor`) can insert into the campaign email content.
 
 ## Authentication and middleware
 
@@ -89,6 +96,28 @@ The matched OpenAPI operation does not declare a request body. Runtime body beha
 | Status | Description | Content types |
 |---|---|---|
 | `200` | OK | application/json |
+
+### Response body (200 OK)
+
+| Field | Type | Description |
+|---|---|---|
+| `pre_campaign_id` | integer | Identifier of the created SMS pre-campaign. |
+| `numb_of_receivers` | integer | Number of filtered recipient candidates. |
+| `estimated_cost` | number | Estimated cost of sending the SMS messages. |
+| `email_placeholders` | array of strings | Available placeholders for campaign email content (e.g. `["{candidate_first_name}"]`). Added in GAP-745. |
+
+Example:
+
+```json
+{
+  "pre_campaign_id": 105,
+  "numb_of_receivers": 45,
+  "estimated_cost": 2.25,
+  "email_placeholders": [
+    "{candidate_first_name}"
+  ]
+}
+```
 
 
 ## Errors

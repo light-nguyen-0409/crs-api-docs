@@ -13,6 +13,7 @@ openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
 last_verified: "2026-10-08"
+gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 ---
 
 # `PUT /api/consultant/sms/candidate_campaign/{id}/resume`
@@ -20,6 +21,16 @@ last_verified: "2026-10-08"
 ## Contract status
 
 `CODE_ONLY` — runtime route has no matching OpenAPI operation.
+
+## GAP-745 — Local implementation contract (not deployed)
+
+The behavior below is the approved GAP-745 change to support email communication alongside Bulk SMS. It is not deployed until the backend change and verification are complete.
+
+During the 5-minute review delay, consultants can resume/edit the campaign to modify both SMS and Email details:
+- `send_email`: Boolean flag.
+- `email_subject`: String (max 255 chars). Required when `send_email` is `true`.
+- `email_content`: String (HTML / Rich Text, min 10 chars). Required when `send_email` is `true`. Supports `{candidate_first_name}` placeholder.
+- Resuming resets the 5-minute review countdown timer (`updated_at = NOW()`).
 
 ## Authentication and middleware
 
@@ -56,12 +67,41 @@ Send a JSON object (`Content-Type: application/json`). The fields below come fro
 |---|---|---|---|
 | `subject` | string | Yes | `required` |
 | `content` | string | Yes | `required\|string\|min:10\|max:612` |
+| `send_email` | boolean | No | `sometimes\|boolean` (Added in GAP-745) |
+| `email_subject` | string | Conditional | `required_if:send_email,true\|nullable\|string\|max:255` (Added in GAP-745) |
+| `email_content` | string | Conditional | `required_if:send_email,true\|nullable\|string\|min:10` (Added in GAP-745) |
 
 ## Response
 
 ### Success and declared responses
 
-UNVERIFIED — no response contract was found in the available OpenAPI operation.
+| Status | Description | Content types |
+|---|---|---|
+| `200` | OK — Returns the updated `SmsCampaign` resource in `PENDING` status. | application/json |
+
+Example:
+
+```json
+{
+  "id": 105,
+  "user_id": 5,
+  "user_name": "Consultant Name",
+  "receivers_count": 45,
+  "branch_id": 3,
+  "subject": "Updated SMS Subject",
+  "content": "Updated SMS Content...",
+  "send_email": true,
+  "email_subject": "Updated Email Subject",
+  "email_content": "<p>Hello {candidate_first_name}, updated email content...</p>",
+  "email_sent_at": null,
+  "status": "PENDING",
+  "failure_message": "",
+  "estimated_cost": 2.25,
+  "credits": 1,
+  "sent_at": "",
+  "first_received_at": ""
+}
+```
 
 ## Errors
 

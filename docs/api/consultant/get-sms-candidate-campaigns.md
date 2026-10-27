@@ -13,6 +13,7 @@ openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/sms/candidate_campaigns"
 openapi_match: "EXACT_PATH"
 last_verified: "2026-10-07"
+gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 ---
 
 # `GET /api/consultant/sms/candidate_campaigns`
@@ -26,6 +27,16 @@ last_verified: "2026-10-07"
 ### OpenAPI summary
 
 get sms campaigns
+
+## GAP-745 — Local implementation contract (not deployed)
+
+The behavior below is the approved GAP-745 change to support email communication alongside Bulk SMS. It is not deployed until the backend change and verification are complete.
+
+The returned campaign items include email campaign details:
+- `send_email`: Boolean flag indicating if email was configured for this campaign.
+- `email_subject`: Subject of the email (nullable string).
+- `email_content`: Content of the email (nullable string).
+- `email_sent_at`: Timestamp string when the email batch was sent (`d/m/Y H:i` format, or null).
 
 ## Authentication and middleware
 
@@ -63,6 +74,39 @@ The matched OpenAPI operation does not declare a request body. Runtime body beha
 | Status | Description | Content types |
 |---|---|---|
 | `200` | OK | application/json |
+
+### Response body (200 OK)
+
+Returns a paginated list of SMS campaigns with candidate counts.
+
+Example:
+
+```json
+{
+  "campaigns": [
+    {
+      "id": 105,
+      "user_id": 5,
+      "user_name": "Consultant Name",
+      "receivers_count": 45,
+      "branch_id": 3,
+      "subject": "SMS Urgent Shifts Available",
+      "content": "Hi there...",
+      "send_email": true,
+      "email_subject": "Exciting Job Opportunities at GAP Personnel",
+      "email_content": "<p>Hello {candidate_first_name}...</p>",
+      "email_sent_at": "28/10/2026 10:15",
+      "status": "SENT",
+      "failure_message": "",
+      "estimated_cost": 2.25,
+      "credits": 1,
+      "sent_at": "28/10/2026 10:15",
+      "first_received_at": "28/10/2026 10:16"
+    }
+  ],
+  "count": 1
+}
+```
 
 
 ## Errors
