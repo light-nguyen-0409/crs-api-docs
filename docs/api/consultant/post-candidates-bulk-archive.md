@@ -55,7 +55,7 @@ Content-Type: application/json
 | `candidate_ids` | Yes | integer[] | 1–100 distinct positive IDs; all candidates are validated as one batch. |
 | `send_email` | Yes | boolean | `true` queues one archive email per newly archived candidate; `false` archives without issuing a deletion token or email job. |
 
-The backend validates candidate/job ownership and eligibility. Candidates must have a qualifying application in the selected branch. Bulk archive follows the existing single-candidate archive behavior: it updates eligible `candidate_jobs.status` rows to `ARCHIVED` in the selected branch, preserves `MATCHMAKER` jobs, and does not soft-delete or hide the Candidate account. It also resets eligible contract document status/progress and removes the existing candidate-owned contract/medical files. Permanent, approved and MatchMaker states in the selected branch are rejected before mutation; jobs in other branches are untouched.
+The backend validates candidate/job ownership and eligibility. Candidates must have a qualifying application in the selected branch. Bulk archive follows the existing single-candidate archive behavior: it updates eligible `candidate_jobs.status` rows to `ARCHIVED` in the selected branch, preserves `MATCHMAKER` jobs, and does not soft-delete or hide the Candidate account. It also resets eligible contract document status/progress and removes the existing candidate-owned contract/medical files. Permanent candidates and MatchMaker states are rejected before mutation; jobs in other branches are untouched.
 
 ## Response
 
@@ -108,7 +108,7 @@ candidates in the same request are not partially archived.
     {
       "candidate_id": 789,
       "reasons": ["candidate_has_blocked_job"],
-      "blocked_statuses": ["approved"]
+      "blocked_statuses": ["matchmaker"]
     }
   ]
 }
