@@ -13,7 +13,6 @@ openapi_source: "UNVERIFIED"
 openapi_path: "UNVERIFIED"
 openapi_match: "NONE"
 last_verified: "2026-10-08"
-gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 ---
 
 # `PUT /api/consultant/sms/candidate_campaign/{id}/resume`
@@ -22,9 +21,7 @@ gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 
 `CODE_ONLY` — runtime route has no matching OpenAPI operation.
 
-## GAP-745 — Local implementation contract (not deployed)
-
-The behavior below is the approved GAP-745 change to support email communication alongside Bulk SMS. It is not deployed until the backend change and verification are complete.
+## Campaign edit & review
 
 During the 5-minute review delay, consultants can resume/edit the campaign to modify both SMS and Email details:
 - `send_email`: Boolean flag.
@@ -67,9 +64,9 @@ Send a JSON object (`Content-Type: application/json`). The fields below come fro
 |---|---|---|---|
 | `subject` | string | Yes | `required` |
 | `content` | string | Yes | `required\|string\|min:10\|max:612` |
-| `send_email` | boolean | No | `sometimes\|boolean` (Added in GAP-745) |
-| `email_subject` | string | Conditional | `required_if:send_email,true\|nullable\|string\|max:255` (Added in GAP-745) |
-| `email_content` | string | Conditional | `required_if:send_email,true\|nullable\|string\|min:10` (Added in GAP-745) |
+| `send_email` | boolean | No | `sometimes\|boolean` |
+| `email_subject` | string | Conditional | `required_if:send_email,true\|nullable\|string\|max:255` |
+| `email_content` | string | Conditional | `required_if:send_email,true\|nullable\|string\|min:10` |
 
 ## Response
 

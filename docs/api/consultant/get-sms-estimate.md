@@ -13,8 +13,6 @@ openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/sms/estimate"
 openapi_match: "EXACT_PATH"
 last_verified: "2026-10-07"
-gap_727_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
-gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 ---
 
 # `GET /api/consultant/sms/estimate`
@@ -29,9 +27,7 @@ gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 
 get estimate sms
 
-## GAP-727 — Local implementation contract (not deployed)
-
-The behavior below is the approved GAP-727 change in the local backend implementation. It is not deployed until the backend change and verification are complete.
+## Global Search (Cross-branch candidate scope)
 
 When `all_branches=true` (Global Search), the estimate may include candidates outside the consultant's current branch/legal entity only when all of these conditions are true:
 
@@ -41,12 +37,6 @@ When `all_branches=true` (Global Search), the estimate may include candidates ou
 - The authenticated user has `can_access_all_branches=true`; this permission is taken from the authenticated user and cannot be supplied by the query string.
 
 When any condition is not met, Global Search does not expand the SMS candidate scope. Existing candidate filters and recipient exclusions remain applied.
-
-## GAP-745 — Local implementation contract (not deployed)
-
-The behavior below is the approved GAP-745 change to support email communication alongside Bulk SMS. It is not deployed until the backend change and verification are complete.
-
-- The response includes `email_placeholders`, returning a list of available placeholders (e.g. `["{candidate_first_name}"]`) that frontend editors (such as `RichTextEditor`) can insert into the campaign email content.
 
 ## Authentication and middleware
 
@@ -79,8 +69,6 @@ The matched OpenAPI operation does not declare query parameters. The local runti
 
 `can_access_all_branches` is not a client-controlled query parameter. If the authenticated user does not have this permission, `all_branches=true` keeps the existing branch-scoped SMS behavior.
 
-The query behavior is a local GAP-727 contract and remains not deployed until backend verification is complete.
-
 ### Headers
 
 If protected, use the Authorization header from the [authentication guide](/docs/authentication); add route-specific scope headers only when this endpoint requires them.
@@ -104,7 +92,7 @@ The matched OpenAPI operation does not declare a request body. Runtime body beha
 | `pre_campaign_id` | integer | Identifier of the created SMS pre-campaign. |
 | `numb_of_receivers` | integer | Number of filtered recipient candidates. |
 | `estimated_cost` | number | Estimated cost of sending the SMS messages. |
-| `email_placeholders` | array of strings | Available placeholders for campaign email content (e.g. `["{candidate_first_name}"]`). Added in GAP-745. |
+| `email_placeholders` | array of strings | Available placeholders for campaign email content (e.g. `["{candidate_first_name}"]`). |
 
 Example:
 

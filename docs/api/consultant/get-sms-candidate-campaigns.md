@@ -13,7 +13,6 @@ openapi_source: "documents/Gap-API-Consultant.yaml"
 openapi_path: "/api/consultant/sms/candidate_campaigns"
 openapi_match: "EXACT_PATH"
 last_verified: "2026-10-07"
-gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 ---
 
 # `GET /api/consultant/sms/candidate_campaigns`
@@ -28,9 +27,7 @@ gap_745_status: "LOCAL_IMPLEMENTATION_NOT_DEPLOYED"
 
 get sms campaigns
 
-## GAP-745 — Local implementation contract (not deployed)
-
-The behavior below is the approved GAP-745 change to support email communication alongside Bulk SMS. It is not deployed until the backend change and verification are complete.
+## Email campaign details
 
 The returned campaign items include email campaign details:
 - `send_email`: Boolean flag indicating if email was configured for this campaign.
