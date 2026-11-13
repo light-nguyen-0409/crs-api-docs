@@ -118,14 +118,14 @@ The GAP-734 external-ID validation amendment is documented before backend implem
 1. Authenticate the consultant and authorize the header branch.
 2. Validate the request and read the branch registration link. A link is required for both default and specific-job selection.
 3. Omitted/null `job_id`: use the original registration link unchanged.
-4. Specific `job_id`: look up the job by internal ID and branch ID; require a nonblank external ID, a title, and a nonblank job reference before any invitation write or email. External IDs may contain digits, letters, or both; the internal request `job_id` remains a positive integer.
+4. Specific `job_id`: look up the job by internal ID and branch ID; require a nonblank external ID and a title before any invitation write or email. A null/blank job reference falls back to the default `gap_branch` (GAP-734 fallback amendment, deployment unverified). External IDs may contain digits, letters, or both; the internal request `job_id` remains a positive integer.
 5. Replace only the values of the existing job parameters using this mapping:
 
 | Registration-link key (unchanged) | Selected job source |
 |---|---|
 | `job_id` | `jobs.external_id` |
 | `job_title` | `jobs.title` |
-| `job_ref` | `jobs.job_reference` |
+| `job_ref` | `jobs.job_reference`, or `gap_branch` when null/blank |
 
 Keep the URL scheme, host, path, fragment route, branch parameters, tracking parameters, and UTM values. Support both ordinary-query and hash-route links. Encode replacement values correctly; do not rename URL keys to response field names. Malformed or conflicting query/fragment job contexts fail before writes/email.
 
@@ -160,7 +160,7 @@ The timestamp above is illustrative; GAP-734 does not change serialization or re
 |---|---|---|
 | `400` | Existing JsonRequest validation response | Invalid name/email or `job_id` shape/value. |
 | `400` | `wrongParameter`, code `1006` | Unknown/stale job or job outside the header branch. |
-| `400` | `wrongParameter`, code `1006` | Selected job missing required external ID, title, or reference. |
+| `400` | `wrongParameter`, code `1006` | Selected job missing required external ID or title. A missing reference is not an error; it falls back to `gap_branch`. |
 | `401` | Authentication middleware | Missing/invalid token. |
 | `400` | `wrongParameter`, code `1006` | Missing/zero branch header. |
 | `403` | `branchAccessNotAllowed`, code `1007` | Branch access denied. |

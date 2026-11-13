@@ -103,7 +103,7 @@ Gap-Branch-ID: 7
 | `jobs[].id` | integer | Internal job ID to submit when selecting a job for invitation. |
 | `jobs[].external_id` | string | External job ID used as URL parameter `job_id`. |
 | `jobs[].title` | string | Job title; existing response field. |
-| `jobs[].job_reference` | string or null | Added in GAP-734; sourced from `jobs.job_reference`. |
+| `jobs[].job_reference` | string | Added in GAP-734; sourced from `jobs.job_reference`. When the stored value is null or blank, the API returns the default `gap_branch` (GAP-734 fallback amendment, deployment unverified). |
 | `count` | integer | Total branch jobs, independent of pagination; excludes the default option. |
 | `invitation_default_job` | object or null | Added in GAP-734; parsed from the branch registration link. Null when that link is absent or invalid. |
 | `invitation_default_job.external_id` | string | Value of registration-link parameter `job_id`. |
@@ -141,7 +141,7 @@ Example without a configured default link:
 }
 ```
 
-Select the default option by omitting `job_id` or submitting null to [the invite endpoint](/docs/api/consultant/post-candidates-invite). Select a listed job by submitting its internal `id`. Reload options and reset the selection when the branch changes. Jobs with missing references cannot be used for custom invitation selection under the selected-job validation rules.
+Select the default option by omitting `job_id` or submitting null to [the invite endpoint](/docs/api/consultant/post-candidates-invite). Select a listed job by submitting its internal `id`. Reload options and reset the selection when the branch changes. Jobs without a stored reference are listed with `job_reference: "gap_branch"` and remain selectable; the invitation link then uses `job_ref=gap_branch`.
 
 ### Errors and scope
 
