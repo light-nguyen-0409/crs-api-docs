@@ -21,6 +21,13 @@ last_verified: "2026-10-08"
 
 `CODE_ONLY` — runtime route has no matching OpenAPI operation.
 
+## GAP-753 planned behavior
+
+**GAP-753 planned contract — NOT YET DEPLOYED (2026-11-13).**
+
+- If the candidate has approved identity images (the latest `profile_image` and `capturerd_candidate_face_image` are `approved` and, unless `journey_type = others`, the latest `profile_image_of_passport` or `profile_image_of_right_to_work` is `approved`), the request is rejected with HTTP `403` / `operationNotAllowed` (code `1004`) before GBG results are fetched.
+- **Redo RTW**: if the candidate already has a stored `passport_check_result` and the new GBG result is fetched, the backend deletes the interview image (`capturerd_candidate_face_image`, except images referenced by a worker welfare check) and resets `right_to_work_face_matching_approval_status` to `pending` before storing the new passport files.
+
 ## Authentication and middleware
 
 | Middleware |

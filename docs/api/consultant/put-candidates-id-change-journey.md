@@ -21,6 +21,14 @@ last_verified: "2026-10-08"
 
 `CODE_ONLY` — runtime route has no matching OpenAPI operation.
 
+## GAP-753 planned behavior
+
+**GAP-753 planned contract — NOT YET DEPLOYED (2026-11-13).**
+
+- If the candidate has approved identity images (the latest `profile_image` and `capturerd_candidate_face_image` are `approved` and, unless `journey_type = others`, the latest `profile_image_of_passport` or `profile_image_of_right_to_work` is `approved`), the request is rejected with HTTP `403` / `operationNotAllowed` (code `1004`), message `Candidate identity has been approved. Right to work check and journey can no longer be changed.` No file or status is changed.
+- Otherwise, on success the backend deletes the candidate's face images of type `profile_image_of_right_to_work`, `profile_image_of_passport` and `capturerd_candidate_face_image` (the selfie `profile_image` is kept). Images referenced by a worker welfare check are kept. Then `journey_type` is updated and `right_to_work_approval_status` and `right_to_work_face_matching_approval_status` are reset to `pending`.
+- Existing validation is unchanged: an unsupported journey or the same journey as the current one is still rejected.
+
 ## Authentication and middleware
 
 | Middleware |
