@@ -27,6 +27,7 @@ last_verified: "2026-10-08"
 
 - If the candidate has approved identity images (the latest `profile_image` and `capturerd_candidate_face_image` are `approved` and, unless `journey_type = others`, the latest `profile_image_of_passport` or `profile_image_of_right_to_work` is `approved`), the request is rejected with HTTP `403` / `operationNotAllowed` (code `1004`), message `Candidate identity has been approved. Right to work check and journey can no longer be changed.` No file or status is changed.
 - Otherwise, on success the backend deletes the candidate's face images of type `profile_image_of_right_to_work`, `profile_image_of_passport` and `capturerd_candidate_face_image` (the selfie `profile_image` is kept). Images referenced by a worker welfare check are kept. Then `journey_type` is updated and `right_to_work_approval_status` and `right_to_work_face_matching_approval_status` are reset to `pending`.
+- **GAP-753 follow-up — NOT YET DEPLOYED (2026-11-19).** On success, open right-to-work escalated issues of the candidate (category `right_to_work_proofs`, status `created` or `assigned`) are resolved: their status is set to `solved` and a `solved` change log is recorded with the consultant as the actor. No notification email is sent. Escalated issues of other categories are unchanged.
 - Existing validation is unchanged: an unsupported journey or the same journey as the current one is still rejected.
 
 ## Authentication and middleware
