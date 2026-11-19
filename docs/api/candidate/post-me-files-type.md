@@ -21,6 +21,15 @@ last_verified: "2026-10-08"
 
 `PARTIAL` — OpenAPI method/path matches runtime; some runtime details may be incomplete.
 
+## GAP-753 follow-up planned behavior (`type = profile_image`)
+
+**GAP-753 follow-up planned contract — NOT YET DEPLOYED (2026-11-19).**
+
+- If the candidate has approved identity images (the latest `profile_image` and `capturerd_candidate_face_image` are `approved` and, unless `journey_type = others`, the latest `profile_image_of_passport` or `profile_image_of_right_to_work` is `approved`), the request is rejected with HTTP `403` / `operationNotAllowed` (code `1004`) before the liveness check runs. Other file types are not affected.
+- **Redo RTW** (identity not approved, e.g. the previous selfie was rejected): when the candidate already had a `profile_image` (replacement, not the first upload, regardless of the previous file status) and the new selfie passes the liveness check, the backend deletes the interview image (`capturerd_candidate_face_image`, except images referenced by a worker welfare check), deletes the selfie ↔ interview face matching score (`candidate_face_matching_rates.type = selfie_to_captured_face_image_from_online_mtg`) and resets `right_to_work_face_matching_approval_status` to `pending`, together with storing the new selfie (all or nothing). Previous `profile_image` files are kept.
+- First `profile_image` upload: no reset; an existing interview image is kept.
+- Face match of the new selfie with the share code image (`journey_type = share_code`) is unchanged. A new selfie ↔ interview score is calculated when staff upload a new interview image.
+
 ## Authentication and middleware
 
 | Middleware |
@@ -75,6 +84,7 @@ Send each field as a multipart form part. The backend requires the `file` part.
 | `201` | Created | application/json |
 | `400` | Bad Request | application/json |
 | `401` | Unauthorized | application/json |
+| `403` | `operationNotAllowed` (code `1004`) — `type = profile_image` while identity images are approved (GAP-753 follow-up, not yet deployed) | application/json |
 | `500` | Internal Server Error | application/json |
 
 
@@ -84,6 +94,7 @@ Send each field as a multipart form part. The backend requires the `file` part.
 |---|---|---|
 | `400` | Bad Request | application/json |
 | `401` | Unauthorized | application/json |
+| `403` | `operationNotAllowed` (code `1004`) — `type = profile_image` while identity images are approved (GAP-753 follow-up, not yet deployed) | application/json |
 | `500` | Internal Server Error | application/json |
 
 ## Flow

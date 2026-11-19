@@ -35,6 +35,10 @@ Check share code status in UK gov site.
 - If the candidate has approved identity images (the latest `profile_image` and `capturerd_candidate_face_image` are `approved` and, unless `journey_type = others`, the latest `profile_image_of_passport` or `profile_image_of_right_to_work` is `approved`), any other share code is rejected with HTTP `403` / `operationNotAllowed` (code `1004`) before the external check runs.
 - **Redo RTW**: if the candidate already has a stored share code and the new check returns a valid result, the backend deletes the interview image (`capturerd_candidate_face_image`, except images referenced by a worker welfare check) and resets `right_to_work_face_matching_approval_status` to `pending` before storing the new right-to-work files.
 
+**GAP-753 follow-up planned contract — NOT YET DEPLOYED (2026-11-19).**
+
+- **Redo RTW (follow-up)**: in addition to the reset above, the backend also deletes the stored selfie ↔ interview face matching score (`candidate_face_matching_rates.type = selfie_to_captured_face_image_from_online_mtg`). A new score is calculated when staff upload a new interview image.
+
 ## Authentication and middleware
 
 | Middleware |
