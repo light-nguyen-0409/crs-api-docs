@@ -21,6 +21,12 @@ last_verified: "2026-10-08"
 
 `PARTIAL` — OpenAPI method/path matches runtime; some runtime details may be incomplete.
 
+## GAP-753 planned behavior
+
+**GAP-753 follow-up — NOT YET DEPLOYED (2026-11-19).**
+
+- When `journey_type` is sent with a value different from the current journey, the change follows the same rules as `PUT /api/consultant/candidates/{id}/change_journey` (identity lock, face image deletion, RTW status reset). On success, open right-to-work escalated issues of the candidate (category `right_to_work_proofs`, status `created` or `assigned`) are resolved: their status is set to `solved` and a `solved` change log is recorded with the current user as the actor. No notification email is sent. Escalated issues of other categories are unchanged.
+
 ## Authentication and middleware
 
 | Middleware |
